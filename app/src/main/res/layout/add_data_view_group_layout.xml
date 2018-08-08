@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Morning Shift -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:orientation="vertical">
+        <CheckBox
+            android:id="@+id/checkbox_shiftType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="เวรเช้า"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"/>
+
+        <!-- View Child of Morning Shift -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="30dp">
+
+            <!-- Job Type -->
+            <TextView
+                style="@style/TextLabelTopicStyle"
+                android:textSize="16sp"
+                android:text="ประเภทงาน"/>
+            <RadioGroup
+                android:id="@+id/radioGroup_jobType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/radio_realJob"
+                    style="@style/RadioButtonItemStyle"
+                    android:text="เวรจริง"/>
+                <RadioButton
+                    android:id="@+id/radio_otJob"
+                    style="@style/RadioButtonItemStyle"
+                    android:text="เวรพิเศษ(OT)" />
+            </RadioGroup>
+
+            <!-- From Time To Time -->
+            <TextView
+                style="@style/TextLabelTopicStyle"
+                android:textSize="16sp"
+                android:text="จากเวลา-ถึงเวลา"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/edit_fromTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/EditTextTimeStyle"
+                    android:hint="hh:mm:ss"/>
+                <ImageButton
+                    android:id="@+id/imageButton_fromTime"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
+                    android:background="@drawable/button_time_state"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="7dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="To"/>
+
+                <EditText
+                    android:id="@+id/edit_toTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    style="@style/EditTextTimeStyle"
+                    android:hint="hh:mm:ss"/>
+                <ImageButton
+                    android:id="@+id/imageButton_toTime"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
+                    android:background="@drawable/button_time_state"/>
+            </LinearLayout>
+
+            <!-- Total of Working Time -->
+            <TextView
+                android:id="@+id/text_totalWorkingTime"
+                style="@style/TextLabelTopicStyle"
+                android:textSize="16sp"
+                android:text="จำนวนเวลาทำงาน"/>
+
+            <!-- Location -->
+            <TextView
+                style="@style/TextLabelTopicStyle"
+                android:textSize="16sp"
+                android:text="สถานที่ทำงาน"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/edit_location"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    style="@style/EditTextDateStyle"
+                    android:hint="สถานที่"/>
+                <ImageButton
+                    android:id="@+id/imageButton_location"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="1dp"
+                    android:background="@drawable/button_location_state"/>
+            </LinearLayout>
+
+            <!-- Location -->
+            <TextView
+                style="@style/TextLabelTopicStyle"
+                android:textSize="16sp"
+                android:text="คำอธิบายหรือบันทึกเตือนความจำ"/>
+            <EditText
+                android:id="@+id/edit_remark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:lines="2"
+                android:imeOptions="actionDone"
+                android:textSize="16sp"
+                android:background="@drawable/edit_fill_data_shape"
+                android:hint="Remark"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

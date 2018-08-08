@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:key="check_system_mode"
+        android:title="System Mode"
+        android:summary="Online Mode"
+        android:defaultValue="true"/>
+    <CheckBoxPreference
+        android:key="check_update"
+        android:title="Update Alert"
+        android:summary="Alert when has new update"
+        android:defaultValue="true"/>
+    <ListPreference
+        android:key="font_size"
+        android:title="Font Size"
+        android:summary="18"
+        android:entries="@array/pref_font_size_entries"
+        android:entryValues="@array/pref_font_size_entries_value"
+        android:dialogIcon="@drawable/ic_launcher"
+        android:dialogTitle="Select font size"/>
+
+</PreferenceScreen>

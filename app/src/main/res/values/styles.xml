@@ -1,0 +1,101 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppThemeDefault" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppThemeDefault.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppThemeDefault.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <!--    Home & Main Activity    -->
+    <style name="HomeItemLayoutStyle">
+        <item name="android:layout_width">130dp</item>
+        <item name="android:layout_height">115dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center|top</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:padding">9dp</item>
+        <!--<item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>-->
+    </style>
+    <style name="HomeItemImageStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="HomeTextLabelItemStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@drawable/text_home_menu_state</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!--    Add Item Activity   -->
+    <style name="TextLabelTopicStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#000</item>
+    </style>
+    <style name="EditTextDateStyle">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:inputType">textPersonName</item>
+        <item name="android:background">@drawable/edit_fill_date_shape</item>
+        <item name="android:imeOptions">actionDone</item>
+    </style>
+    <style name="EditTextTimeStyle">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:inputType">time</item>
+        <item name="android:background">@drawable/edit_fill_time_shape</item>
+        <item name="android:imeOptions">actionNext</item>
+    </style>
+    <style name="EditTextFillDataStyle">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:inputType">date</item>
+        <item name="android:background">@drawable/edit_fill_data_shape</item>
+        <item name="android:imeOptions">actionNext</item>
+    </style>
+    <style name="CheckBoxItemStyle">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:inputType">textPersonName</item>
+        <item name="android:background">@drawable/edit_fill_data_shape</item>
+        <item name="android:imeOptions">actionNext</item>
+    </style>
+    <style name="RadioButtonItemStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>

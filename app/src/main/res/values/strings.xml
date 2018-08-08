@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">NursingSchedule</string>
+    <string name="title_activity_main">Nursing Menu</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="pref_font_size_entries">
+        <item>16sp</item>
+        <item>18sp</item>
+        <item>22sp</item>
+        <item>24sp</item>
+        <item>36sp</item>
+        <item>72sp</item>
+    </string-array>
+    <string-array name="pref_font_size_entries_value">
+        <item>16</item>
+        <item>18</item>
+        <item>22</item>
+        <item>24</item>
+        <item>36</item>
+        <item>72</item>
+    </string-array>
+
+
+    <!--<string name="app_name">ContextMenu</string>-->
+    <string name="text">Squid blog crucifix Marfa, consectetur vero placeat mixtape. Non seitan sriracha eu, do Banksy fashion axe cred qui vegan delectus consequat Helvetica mollit. XOXO gluten-free disrupt, gastropub officia cliche chillwave hella pop-up. Fixie swag raw denim, YOLO craft beer assumenda occupy veniam photo booth pug consectetur next level Portland tote bag +1. Mlkshk PBR aliquip placeat Wes Anderson.</string>
+    <string name="title">My Description</string>
+    <string name="context_menu">Context menu</string>
+
+</resources>

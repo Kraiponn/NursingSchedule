@@ -45,7 +45,6 @@ public class HttpNursingRequest {
                 .baseUrl("http:/www.ksnajaroon.com/nurse_note/")
                 .client(getRequestHeader())
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         api = retrofit.create(NursingScheduleAPI.class);
     }

@@ -18,6 +18,7 @@ import android.widget.RadioGroup;
 import com.ksntechnology.nursingschedule.R;
 import com.ksntechnology.nursingschedule.dao.AddNursingItemDao;
 import com.ksntechnology.nursingschedule.dao.SignInRegisterResultDao;
+import com.ksntechnology.nursingschedule.dialog.MyAlertDialog;
 import com.ksntechnology.nursingschedule.dialog.MyDatePickerDialog;
 import com.ksntechnology.nursingschedule.dialog.MyTimePickerDialog;
 import com.ksntechnology.nursingschedule.dialog.SingleChoiceDialog;
@@ -82,6 +83,7 @@ public class AddItemActivity extends AppCompatActivity {
     private EditText edtRemarkNig;
 
     private Button btnAddItem;
+    private Button btnClearItem;
     private String mUser;
     private final String[] arrLocation = {
             "โรงพยาบาลราชวิถี", "โรงพยาบาลพระมงกุฏเกล้า", "โรงพยาบาลการุญเวช",
@@ -95,7 +97,7 @@ public class AddItemActivity extends AppCompatActivity {
     private final int DISPLAY_SHIFT_MORNING_TYPE = 1;
     private final int DISPLAY_SHIFT_AFTERNOON_TYPE = 2;
     private final int DISPLAY_SHIFT_NIGHT_TYPE = 3;
-    private final String INSERT_RESULT = "Duplicate data";
+    private final String RESPONSE_RESULT = "Duplicate data";
 
 
     @Override
@@ -128,6 +130,7 @@ public class AddItemActivity extends AppCompatActivity {
         btnDate = findViewById(R.id.imageButton_date);
         edtDate = findViewById(R.id.edit_date);
         btnAddItem = findViewById(R.id.button_addItem);
+        btnClearItem = findViewById(R.id.button_ClearItem);
         layoutMorning = findViewById(R.id.layoutMorning);
         layoutAfternoon = findViewById(R.id.layoutAfternoon);
         layoutNight = findViewById(R.id.layoutNight);
@@ -170,6 +173,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         btnDate.setOnClickListener(btnDateClickListener);
         btnAddItem.setOnClickListener(btnAddItemClickListener);
+        btnClearItem.setOnClickListener(btnClearItemClickListener);
 
         chkShiftMor.setOnCheckedChangeListener(chkMorShiftCheckChanged);
         btnFromTimeMor.setOnClickListener(btnFromTimeMorClickListener);
@@ -225,7 +229,7 @@ public class AddItemActivity extends AppCompatActivity {
                 FancyToast.makeText(
                         this,
                         text,
-                        FancyToast.LENGTH_SHORT,
+                        FancyToast.LENGTH_LONG,
                         FancyToast.ERROR,
                         true
                 ).show();
@@ -396,7 +400,7 @@ public class AddItemActivity extends AppCompatActivity {
     private void InsertItem() {
         if (edtDate.getText().toString().trim().equals("")) {
             setAlertEditView(
-                    "คุณยังไม่ได้เระบุวันที่ในการเข้างาน",
+                    "คุณยังไม่ได้เระบุ ว ัน-เดือน-ปี ในการเข้างาน",
                     edtDate);
         } else {
             if (checkMorningShift()) {
@@ -462,7 +466,7 @@ public class AddItemActivity extends AppCompatActivity {
         if (chkShiftNig.isChecked()) {
             fromTime = edtFromTimeNig.getText().toString().trim();
             toTime = edtToTimeNig.getText().toString().trim();
-            shift = "MORNING";
+            shift = "NIGHT";
             location = edtLocationNig.getText().toString().trim();
             remark = edtRemarkNig.getText().toString().trim();
             if (radRealJobNig.isChecked()) {
@@ -477,38 +481,22 @@ public class AddItemActivity extends AppCompatActivity {
             );
         }
 
-    }
 
-    private void feedNursingSchedule() {
-        Observable<AddNursingItemDao> observable =
-                HttpNursingRequest.getInstance().getApi().getRequest1();
-        observable.subscribe(new Observer<AddNursingItemDao>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                //
-            }
-
-            @Override
-            public void onNext(AddNursingItemDao addNursingItemDao) {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
+        if (!chkShiftMor.isChecked() && !chkShiftAft.isChecked()
+                && !chkShiftNig.isChecked()) {
+            showAlertDialog(
+                    "คำเตือน",
+                    "คุณยังไม่ได้เลือกช่วงเวลาในการเข้างาน",
+                    true
+            );
+        }
 
     }
+
 
     private void addItem(String userWorking, String date, String fromTime,
                             String toTime, String shift, String jobType,
-                            String location, final String remark) {
+                            String location, String remark) {
 
         Call<AddNursingItemDao> call =
                 HttpNursingRequest.getInstance().getApi().feedToServer(
@@ -520,27 +508,74 @@ public class AddItemActivity extends AppCompatActivity {
             public void onResponse(Call<AddNursingItemDao> call,
                                    Response<AddNursingItemDao> response) {
                 if (response.isSuccessful()) {
-                    if (response.body().getErrMsg().equals(INSERT_RESULT)) {
-                        toastMessage("Duplicate data",
-                                TOAST_TYPE_WARNING);
+                    if (response.body().getErrMsg().equals(RESPONSE_RESULT)) {
+                        /*toastMessage("Duplicate data",
+                                TOAST_TYPE_WARNING);*/
+                        showAlertDialog(
+                                "บันทึกข้อมูลซ้ำ!",
+                                "มีข้อมูลของช่วงเวลาเข้างานนี้อยู่แล้ว ถ้าต้องการแก้ไขให้ไปที่หน้าเปลี่ยนแปลงแก้ไข",
+                                true
+                        );
                     } else {
-                        toastMessage(response.body().getErrMsg(),
+                        toastMessage("บันทึกข้อมูลใหม่สำเร็จ",
                                 TOAST_TYPE_SUCCESS);
+                        setEmptyView();
                     }
                 } else {
-                    toastMessage("Error " + response.errorBody(),
-                            TOAST_TYPE_ERROR);
+                    /*toastMessage("Error " + response.errorBody(),
+                            TOAST_TYPE_ERROR);*/
+                    showAlertDialog(
+                            "เกิดข้อผิดพลาด!",
+                            "การบันทึกข้อมูลล้มเหลว โปรดลองอีกครั้ง",
+                            false
+                    );
                 }
             }
 
             @Override
             public void onFailure(Call<AddNursingItemDao> call,
                                   Throwable t) {
-                toastMessage("Throw " + t.getMessage(),
-                        TOAST_TYPE_ERROR);
+                /*toastMessage("Throw " + t.getMessage(),
+                        TOAST_TYPE_ERROR);*/
+                showAlertDialog(
+                        "เกิดข้อผิดพลาด!",
+                        "การบันทึกข้อมูลล้มเหลว " + t.getMessage(),
+                        false
+                );
             }
         });
 
+    }
+
+    private void showAlertDialog(String title,String msg, boolean alertType) {
+        MyAlertDialog dialog = MyAlertDialog.newInstance(
+                title, msg, alertType
+        );
+
+        dialog.show(getSupportFragmentManager(), null);
+    }
+
+    private void setEmptyView() {
+        edtFromTimeMor.setText("");
+        edtToTimeMor.setText("");
+        edtLocationMor.setText("");
+        edtRemarkMor.setText("");
+        radOtJobMor.setChecked(false);
+        radRealJobMor.setChecked(false);
+
+        edtFromTimeAft.setText("");
+        edtToTimeAft.setText("");
+        edtLocationAft.setText("");
+        edtRemarkAft.setText("");
+        radOtJobAft.setChecked(false);
+        radRealJobAft.setChecked(false);
+
+        edtFromTimeNig.setText("");
+        edtToTimeNig.setText("");
+        edtLocationNig.setText("");
+        edtRemarkNig.setText("");
+        radOtJobNig.setChecked(false);
+        radRealJobNig.setChecked(false);
     }
 
     private boolean checkMorningShift() {
@@ -710,6 +745,12 @@ public class AddItemActivity extends AppCompatActivity {
         }
     };
 
+    View.OnClickListener btnClearItemClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            setEmptyView();
+        }
+    };
 
     View.OnClickListener btnDateClickListener = new View.OnClickListener() {
         @Override

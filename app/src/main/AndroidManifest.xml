@@ -43,7 +43,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.AddItemActivity"></activity>
+        <activity
+            android:name=".activity.AddItemActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
     </application>
 
 </manifest>

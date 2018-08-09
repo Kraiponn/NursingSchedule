@@ -113,19 +113,19 @@ public class RegisterActivity extends AppCompatActivity {
         String gender = "";
 
         if (email.equals("")) {
-            callWarning(edtEmail, "Please enter email!");
+            setAlertEditView(edtEmail, "กรุณาใส่ Email ในการลงทะเบียน");
             return;
         } else if (userName.equals("")) {
-            callWarning(edtUserName, "Please enter user name!");
+            setAlertEditView(edtUserName, "กรุณาใส่ชื่อในการลงทะเบียน");
             return;
         }else if (password.equals("")) {
-            callWarning(edtPswd, "Please enter password!");
+            setAlertEditView(edtPswd, "กรุณาใส่ระหัสผ่านในการลงทะเบียน");
             return;
         }
 
         if (!radMale.isChecked() && !radFeMale.isChecked()) {
             toastMessage(
-                    "Please select gender",
+                    "กรุณาเลือกเพศในการลงทะเบียน",
                     TOAST_TYPE_WARNING
             );
             return;
@@ -156,7 +156,7 @@ public class RegisterActivity extends AppCompatActivity {
                     String result = response.body().getErrMsg();
                     if (result.equals("Register Successfully")) {
                         toastMessage(
-                                "Register successfully",
+                                "การสมัครลงทะเบียนสำเร็จ",
                                 TOAST_TYPE_SUCCESS
                         );
                         overridePendingTransition(
@@ -172,7 +172,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 } else {
                     toastMessage(
-                            "Register error "
+                            "Invalid register : "
                                     + response.errorBody().toString(),
                             TOAST_TYPE_ERROR
                     );
@@ -191,7 +191,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    private void callWarning(EditText editText, String textMsg) {
+    private void setAlertEditView(EditText editText, String textMsg) {
         new SimpleTooltip.Builder(this)
                 .anchorView(editText)
                 .text(textMsg)

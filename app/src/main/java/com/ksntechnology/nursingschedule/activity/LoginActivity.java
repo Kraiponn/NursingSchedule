@@ -4,19 +4,35 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ksntechnology.nursingschedule.R;
 import com.ksntechnology.nursingschedule.dao.SignInRegisterResultDao;
 import com.ksntechnology.nursingschedule.manager.HttpNursingRequest;
 import com.shashank.sony.fancytoastlib.FancyToast;
+import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
+import com.yalantis.contextmenu.lib.MenuObject;
+import com.yalantis.contextmenu.lib.MenuParams;
+import com.yalantis.contextmenu.lib.interfaces.OnMenuItemClickListener;
+import com.yalantis.contextmenu.lib.interfaces.OnMenuItemLongClickListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip;
 import retrofit2.Call;
@@ -35,6 +51,9 @@ public class LoginActivity extends AppCompatActivity {
     private final int TOAST_TYPE_WARNING = 2;
     private final int TOAST_TYPE_ERROR = 3;
 
+    /***********************************
+     *  Method Zone
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
 
         initInstance();
     }
+
 
     private void initInstance() {
         edtUserName = findViewById(R.id.edit_userName);
@@ -87,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
     /*************************************
      *  Custom Method
      */
+
     private void readLastViewStatus() {
         boolean registerIsChecked =
                 mPreference.getBoolean("login_remember", false);
@@ -151,6 +172,17 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private void setAlertEditView(String text, EditText edt) {
+        new SimpleTooltip.Builder(this)
+                .anchorView(edt)
+                .text(text)
+                .gravity(Gravity.BOTTOM)
+                .animated(true)
+                .transparentOverlay(false)
+                .build()
+                .show();
+    }
+
     private void feedSignIn() {
         String userName = edtUserName.getText().toString().trim();
         String passWord = edtPswd.getText().toString().trim();
@@ -158,25 +190,17 @@ public class LoginActivity extends AppCompatActivity {
 
         if (userName.equals("")) {
             //edtUserName.setBackgroundResource(R.drawable.edit_warning_state);
-            new SimpleTooltip.Builder(this)
-                    .anchorView(edtUserName)
-                    .text("Please enter username")
-                    .gravity(Gravity.BOTTOM)
-                    .animated(true)
-                    .transparentOverlay(false)
-                    .build()
-                    .show();
+            setAlertEditView(
+                    "Please enter username",
+                    edtUserName
+            );
             return;
         } else if (passWord.equals("")) {
             //edtPswd.setBackgroundResource(R.drawable.edit_warning_state);
-            new SimpleTooltip.Builder(this)
-                    .anchorView(edtPswd)
-                    .text("Please enter password")
-                    .gravity(Gravity.BOTTOM)
-                    .animated(true)
-                    .transparentOverlay(false)
-                    .build()
-                    .show();
+            setAlertEditView(
+                    "Please enter password",
+                    edtPswd
+            );
             return;
         }
 

@@ -7,7 +7,6 @@ import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface NursingScheduleAPI {
@@ -47,11 +46,5 @@ public interface NursingScheduleAPI {
                                          @Field("job_type") String job_type,
                                          @Field("location") String location,
                                          @Field("remark") String remark);
-
-    @GET("sample")
-    Observable<AddNursingItemDao> getRequest1();
-
-    @GET("sample")
-    Observable<AddNursingItemDao> getRequest2();
 
 }

@@ -5,6 +5,10 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,9 +24,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ksntechnology.nursingschedule.R;
+import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
+import com.yalantis.contextmenu.lib.MenuObject;
+import com.yalantis.contextmenu.lib.MenuParams;
+import com.yalantis.contextmenu.lib.interfaces.OnMenuItemClickListener;
+import com.yalantis.contextmenu.lib.interfaces.OnMenuItemLongClickListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        MenuItem.OnMenuItemClickListener,
+        OnMenuItemLongClickListener, OnMenuItemClickListener {
 
     private Toolbar toolbar;
     private FloatingActionButton fab;
@@ -37,6 +51,9 @@ public class MainActivity extends AppCompatActivity
     private LinearLayout btnViewTeam;
     private LinearLayout btnViewStatistic;
     private String mUser = "";
+
+    private FragmentManager fragmentManager;
+    private ContextMenuDialogFragment mMenuDialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,17 +87,18 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         switch (id) {
-            case R.id.action_settings:
+            /*case R.id.action_settings:
                 startActivity(new Intent(
                         MainActivity.this,
                         SettingActivity.class
@@ -89,10 +107,46 @@ public class MainActivity extends AppCompatActivity
                         R.anim.from_bottom,
                         R.anim.to_top
                 );
-                return true;
+                break;*/
+            case R.id.context_menu:
+                if (fragmentManager.findFragmentByTag(ContextMenuDialogFragment.TAG) == null) {
+                    mMenuDialogFragment.show(fragmentManager, ContextMenuDialogFragment.TAG);
+                }
+                break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        Toast.makeText(this, "Clicked on positionXXX: "
+                + item.getItemId(), Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    @Override
+    public void onMenuItemLongClick(View view, int i) {
+        Toast.makeText(this, "Long clicked on position: "
+                + i, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onMenuItemClick(View view, int position) {
+        /*Toast.makeText(this, "Clicked on position: "
+                + position, Toast.LENGTH_SHORT).show();*/
+        switch (position) {
+            case 1:
+                startActivity(new Intent(
+                        MainActivity.this,
+                        SettingActivity.class
+                ));
+                overridePendingTransition(
+                        R.anim.from_bottom,
+                        R.anim.to_top
+                );
+                break;
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -124,16 +178,60 @@ public class MainActivity extends AppCompatActivity
     /*************************************
      *  Custom Method
      */
-    private void toastMessage(String text) {
-        Toast.makeText(this,
-                text,
-                Toast.LENGTH_SHORT).show();
+    private void initMenuFragment() {
+        MenuParams menuParams = new MenuParams();
+        menuParams.setActionBarSize((int) getResources().getDimension(R.dimen.tool_bar_height));
+        menuParams.setMenuObjects(getMenuObjects());
+        menuParams.setClosableOutside(false);
+        mMenuDialogFragment = ContextMenuDialogFragment.newInstance(menuParams);
+        mMenuDialogFragment.setItemClickListener(this);
+        mMenuDialogFragment.setItemLongClickListener(this);
+    }
+
+    private List<MenuObject> getMenuObjects() {
+        List<MenuObject> menuObjects = new ArrayList<>();
+
+        MenuObject close = new MenuObject();
+        close.setResource(R.drawable.icn_close);
+
+        MenuObject setting = new MenuObject("Setting");
+        setting.setResource(R.drawable.ic_setting_icon_white);
+
+        MenuObject send = new MenuObject("Send message");
+        send.setResource(R.drawable.icn_1);
+
+        menuObjects.add(close);
+        menuObjects.add(setting);
+        menuObjects.add(send);
+        /*menuObjects.add(like);
+        menuObjects.add(addFr);
+        menuObjects.add(addFav);
+        menuObjects.add(block);*/
+
+        return menuObjects;
+    }
+
+    protected void addFragment(Fragment fragment,
+                               boolean addToBackStack, int containerId) {
+        invalidateOptionsMenu();
+        String backStackName = fragment.getClass().getName();
+        boolean fragmentPopped = fragmentManager.popBackStackImmediate(backStackName, 0);
+
+        if (!fragmentPopped) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.add(containerId, fragment, backStackName)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            if (addToBackStack)
+                transaction.addToBackStack(backStackName);
+            transaction.commit();
+        }
     }
 
 
     private void initInstance() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(fabClickListener);
@@ -165,6 +263,8 @@ public class MainActivity extends AppCompatActivity
         btnViewStatistic.setOnClickListener(btnViewStatisticClickListener);
 
         initUserLogin();
+        fragmentManager = getSupportFragmentManager();
+        initMenuFragment();
     }
 
 
@@ -198,7 +298,16 @@ public class MainActivity extends AppCompatActivity
     View.OnClickListener btnViewDataClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    ViewScheduleRecordActivity.class
+            );
+            intent.putExtra("user_working", mUser);
+            startActivity(intent);
+
+            overridePendingTransition(
+                    R.anim.from_bottom, R.anim.to_top
+            );
         }
     };
 

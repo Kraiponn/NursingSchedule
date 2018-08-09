@@ -2,9 +2,16 @@ package com.ksntechnology.nursingschedule.activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -14,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.ksntechnology.nursingschedule.R;
 import com.ksntechnology.nursingschedule.dao.AddNursingItemDao;
@@ -24,6 +32,14 @@ import com.ksntechnology.nursingschedule.dialog.MyTimePickerDialog;
 import com.ksntechnology.nursingschedule.dialog.SingleChoiceDialog;
 import com.ksntechnology.nursingschedule.manager.HttpNursingRequest;
 import com.shashank.sony.fancytoastlib.FancyToast;
+import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
+import com.yalantis.contextmenu.lib.MenuObject;
+import com.yalantis.contextmenu.lib.MenuParams;
+import com.yalantis.contextmenu.lib.interfaces.OnMenuItemClickListener;
+import com.yalantis.contextmenu.lib.interfaces.OnMenuItemLongClickListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip;
 import io.reactivex.Observable;
@@ -100,6 +116,9 @@ public class AddItemActivity extends AppCompatActivity {
     private final String RESPONSE_RESULT = "Duplicate data";
 
 
+    /***********************************
+     *  Method Zone
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +131,7 @@ public class AddItemActivity extends AppCompatActivity {
 
         initInstance();
     }
+
 
 
     @Override
@@ -204,6 +224,7 @@ public class AddItemActivity extends AppCompatActivity {
         Intent intent = getIntent();
         mUser = intent.getStringExtra("user_working");
     }
+
 
     private void toastMessage(String text, int alertType) {
         switch (alertType) {
@@ -400,7 +421,7 @@ public class AddItemActivity extends AppCompatActivity {
     private void InsertItem() {
         if (edtDate.getText().toString().trim().equals("")) {
             setAlertEditView(
-                    "คุณยังไม่ได้เระบุ ว ัน-เดือน-ปี ในการเข้างาน",
+                    "คุณยังไม่ได้เระบุ วัน-เดือน-ปี ในการเข้างาน",
                     edtDate);
         } else {
             if (checkMorningShift()) {

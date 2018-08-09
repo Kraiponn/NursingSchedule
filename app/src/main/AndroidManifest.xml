@@ -45,7 +45,11 @@
         <activity android:name=".activity.RegisterActivity" />
         <activity
             android:name=".activity.AddItemActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".activity.ViewScheduleRecordActivity"
+            android:label="@string/title_activity_view_schedule_record"
+            android:theme="@style/AppThemeDefault"></activity>
     </application>
 
 </manifest>

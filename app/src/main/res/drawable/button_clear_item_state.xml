@@ -10,7 +10,7 @@
                 android:centerColor="#803e3c3d"
                 android:endColor="#80fdfdfc"
                 android:angle="90"/>
-            <corners android:radius="9dp"/>
+            <!--<corners android:radius="9dp"/>-->
             <stroke android:color="#80000000" android:width="2dp"/>
         </shape>
     </item>
@@ -21,7 +21,7 @@
                 android:centerColor="#046d9e"
                 android:endColor="#f9f6d9"
                 android:angle="90"/>
-            <corners android:radius="9dp"/>
+            <!--<corners android:radius="9dp"/>-->
             <stroke android:color="#80000000" android:width="2dp"/>
         </shape>
     </item>

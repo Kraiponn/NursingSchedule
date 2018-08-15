@@ -31,5 +31,7 @@
     <string name="title">My Description</string>
     <string name="context_menu">Context menu</string>
     <string name="title_activity_view_schedule_record">ViewScheduleRecordActivity</string>
+    <string name="title_activity_find_work_mate">FindWorkMateActivity</string>
+    <string name="title_activity_find_work_mate_detail">FindWorkMateDetailActivity</string>
 
 </resources>

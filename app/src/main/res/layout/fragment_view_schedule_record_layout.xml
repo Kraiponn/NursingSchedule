@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#dfdfdf"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/layoutSearch"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/search_tab_shape"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/imageBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_back_white"/>
+        <Spinner
+            android:id="@+id/spinner_month"
+            android:layout_width="145dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:popupBackground="@drawable/spinner_item_shap"></Spinner>
+        <Spinner
+            android:id="@+id/spinner_year"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:popupBackground="@drawable/spinner_item_shap"></Spinner>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layoutSearch"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="30dp"></android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:padding="12dp"
+            android:orientation="horizontal">
+            <TextView
+                android:text="RealJob(hrs)"
+                style="@style/TextBottomTopicStyle" />
+            <TextView
+                style="@style/TextBottomTopicStyle"
+                android:text="OverTime(hrs)"/>
+        </LinearLayout>
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:padding="3dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/text_realJob"
+                style="@style/TextBottomTopicStyle.Result"
+                android:text="0.0"/>
+            <TextView
+                android:id="@+id/text_otJob"
+                style="@style/TextBottomTopicStyle.Result"
+                android:text="0.0"/>
+        </LinearLayout>-->
+
+    </LinearLayout>
+
+</RelativeLayout>

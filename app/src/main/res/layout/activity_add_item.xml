@@ -7,6 +7,7 @@
     android:background="#fcf9f9"
     tools:context=".activity.AddItemActivity">
 
+    <!-- Image For Background -->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,13 +15,12 @@
         android:scaleType="centerCrop"/>
 
     <android.support.v4.widget.NestedScrollView
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="60dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="left"
             android:padding="20dp"
             android:orientation="vertical">
 
@@ -39,10 +39,10 @@
                     android:orientation="horizontal">
                     <EditText
                         android:id="@+id/edit_date"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/EditTextDateStyle"
+                        android:ems="9"
                         android:hint="yyyy-mm-dd"/>
                     <ImageButton
                         android:id="@+id/imageButton_date"
@@ -53,6 +53,25 @@
                         android:background="@drawable/button_date_state"/>
                 </LinearLayout>
             </LinearLayout>
+
+            <!-- Set  Working Or Free Day -->
+            <TextView
+                style="@style/TextLabelTopicStyle"
+                android:text="ประเภทวันทำงาน"/>
+            <RadioGroup
+                android:id="@+id/radioGroup_jobDay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/radioFreeDay"
+                    style="@style/RadioButtonItemStyle"
+                    android:text="วันหยุด"/>
+                <RadioButton
+                    android:id="@+id/radioWorkingDay"
+                    style="@style/RadioButtonItemStyle"
+                    android:text="วันทำงาน" />
+            </RadioGroup>
 
             <!-- Morning Shift -->
             <LinearLayout
@@ -175,16 +194,25 @@
                         style="@style/TextLabelTopicStyle"
                         android:textSize="16sp"
                         android:text="คำอธิบายหรือบันทึกเตือนความจำ"/>
-                    <EditText
-                        android:id="@+id/edit_remarkMor"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:lines="2"
-                        android:imeOptions="actionDone"
-                        android:textSize="16sp"
-                        android:background="@drawable/edit_fill_data_shape"
-                        android:hint="Remark"/>
+                        android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/edit_remarkMor"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            style="@style/EditTextDateStyle"
+                            android:hint="Remark"/>
+                        <ImageButton
+                            android:id="@+id/imageButton_RemarkMor"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="1dp"
+                            android:background="@drawable/button_location_state"/>
+                    </LinearLayout>
 
                 </LinearLayout>
             </LinearLayout>
@@ -310,16 +338,25 @@
                         style="@style/TextLabelTopicStyle"
                         android:textSize="16sp"
                         android:text="คำอธิบายหรือบันทึกเตือนความจำ"/>
-                    <EditText
-                        android:id="@+id/edit_remarkAft"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:lines="2"
-                        android:imeOptions="actionDone"
-                        android:textSize="16sp"
-                        android:background="@drawable/edit_fill_data_shape"
-                        android:hint="Remark"/>
+                        android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/edit_remarkAft"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            style="@style/EditTextDateStyle"
+                            android:hint="Remark"/>
+                        <ImageButton
+                            android:id="@+id/imageButton_RemarkAft"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="1dp"
+                            android:background="@drawable/button_location_state"/>
+                    </LinearLayout>
 
                 </LinearLayout>
             </LinearLayout>
@@ -445,51 +482,60 @@
                         style="@style/TextLabelTopicStyle"
                         android:textSize="16sp"
                         android:text="คำอธิบายหรือบันทึกเตือนความจำ"/>
-                    <EditText
-                        android:id="@+id/edit_remarkNig"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:lines="2"
-                        android:imeOptions="actionDone"
-                        android:textSize="16sp"
-                        android:background="@drawable/edit_fill_data_shape"
-                        android:hint="Remark"/>
+                        android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/edit_remarkNig"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            style="@style/EditTextDateStyle"
+                            android:hint="Remark"/>
+                        <ImageButton
+                            android:id="@+id/imageButton_RemarkNig"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="1dp"
+                            android:background="@drawable/button_location_state"/>
+                    </LinearLayout>
 
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_marginTop="40dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button
-                    android:id="@+id/button_ClearItem"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/button_clear_item_state"
-                    android:text="ล้างข้อมูล"
-                    android:textColor="@drawable/text_state"
-                    android:textAllCaps="false"
-                    android:textStyle="bold"
-                    android:textSize="18sp"/>
-                <Button
-                    android:id="@+id/button_addItem"
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/button_add_item_state"
-                    android:layout_marginLeft="15dp"
-                    android:text="เพิ่มข้อมูล"
-                    android:textColor="@drawable/text_state"
-                    android:textAllCaps="false"
-                    android:textStyle="bold"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-
-        </LinearLayout>
+        </LinearLayout><!-- Main Layout -->
     </android.support.v4.widget.NestedScrollView>
+
+    <!-- Button Clear And Add Item -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/button_ClearItem"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_clear_item_state"
+            android:text="ล้างข้อมูล"
+            android:textColor="@drawable/text_state"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+        <Button
+            android:id="@+id/button_addItem"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_add_item_state"
+            android:text="เพิ่มข้อมูล"
+            android:textColor="@drawable/text_state"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+    </LinearLayout>
 
 </RelativeLayout>

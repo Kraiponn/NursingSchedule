@@ -10,9 +10,9 @@
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_nurse_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_nurse_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppThemeDefault">
         <activity android:name=".activity.SplashScreenActivity">
@@ -35,20 +35,33 @@
         <activity
             android:name=".activity.HomeActivity"
             android:theme="@style/AppThemeDefault" />
-        <activity android:name=".activity.LoginActivity">
+        <activity
+            android:name=".activity.LoginActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.RegisterActivity" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".activity.AddItemActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".activity.ViewScheduleRecordActivity"
             android:label="@string/title_activity_view_schedule_record"
+            android:theme="@style/AppThemeDefault" />
+        <activity
+            android:name=".activity.ViewScheduleActivity"
+            android:theme="@style/AppThemeDefault" />
+        <activity android:name=".activity.ViewNursingDetailActivity" />
+        <activity android:name=".activity.FindWorkMateActivity" />
+        <activity
+            android:name=".activity.FindWorkMateDetailActivity"
+            android:label="@string/title_activity_find_work_mate_detail"
             android:theme="@style/AppThemeDefault"></activity>
     </application>
 

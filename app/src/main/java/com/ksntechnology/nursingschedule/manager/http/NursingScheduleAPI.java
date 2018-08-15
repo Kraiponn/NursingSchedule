@@ -1,12 +1,15 @@
 package com.ksntechnology.nursingschedule.manager.http;
 
 import com.ksntechnology.nursingschedule.dao.AddNursingItemDao;
+import com.ksntechnology.nursingschedule.dao.NursingItemCollectionDao;
 import com.ksntechnology.nursingschedule.dao.SignInRegisterResultDao;
+import com.ksntechnology.nursingschedule.dao.WorkLocationCollectionDao;
 
 import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface NursingScheduleAPI {
@@ -37,14 +40,28 @@ public interface NursingScheduleAPI {
                                          @Field("remark") String remark);
 
     @FormUrlEncoded
-    @POST("insertitem.php")
-    Observable<AddNursingItemDao> postNurseObservable(@Field("user_working") String user_working,
-                                         @Field("date") String date,
-                                         @Field("from_time") String from_time,
-                                         @Field("to_time") String to_time,
-                                         @Field("shift") String shift,
-                                         @Field("job_type") String job_type,
-                                         @Field("location") String location,
-                                         @Field("remark") String remark);
+    @POST("getnursingschedule.php")
+    Observable<NursingItemCollectionDao> postObservableNursing(@Field("user_working") String userWorking,
+                                                       @Field("month") int month,
+                                                       @Field("year") int year);
 
+    @FormUrlEncoded
+    @POST("getnursing-bycondition.php")
+    Observable<NursingItemCollectionDao> postObservableNursingByCondition(@Field("id") int id,
+                                                                          @Field("select_mode") String select_mode,
+                                                                          @Field("month") int month,
+                                                                          @Field("year") int year,
+                                                                          @Field("location") String location);
+
+    @FormUrlEncoded
+    @POST("getnursingschedule.php")
+    Call<NursingItemCollectionDao> postNursingSchedule(@Field("user_working") String userWorking,
+                                                       @Field("month") int month,
+                                                       @Field("year") int year);
+
+    @POST("test.php")
+    Call<NursingItemCollectionDao> postTest();
+
+    @GET("getworklocation.php")
+    Observable<WorkLocationCollectionDao> getWorkLocation();
 }

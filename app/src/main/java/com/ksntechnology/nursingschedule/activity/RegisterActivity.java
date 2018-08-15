@@ -80,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
                 FancyToast.makeText(
                         this,
                         text,
-                        FancyToast.LENGTH_LONG,
+                        FancyToast.LENGTH_SHORT,
                         FancyToast.SUCCESS,
                         true
                 ).show();
@@ -89,7 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
                 FancyToast.makeText(
                         this,
                         text,
-                        FancyToast.LENGTH_LONG,
+                        FancyToast.LENGTH_SHORT,
                         FancyToast.WARNING,
                         true
                 ).show();
@@ -98,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
                 FancyToast.makeText(
                         this,
                         text,
-                        FancyToast.LENGTH_LONG,
+                        FancyToast.LENGTH_SHORT,
                         FancyToast.ERROR,
                         true
                 ).show();

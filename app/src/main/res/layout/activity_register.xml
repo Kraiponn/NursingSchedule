@@ -18,101 +18,109 @@
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="25dp"
-            android:layout_marginLeft="35dp"
-            android:layout_marginRight="35dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="160dp"
-                android:layout_height="160dp"
-                android:src="@drawable/logo_register"
-                android:layout_gravity="center_horizontal"
-                android:scaleType="centerCrop"/>
-
-            <EditText
-                android:id="@+id/edit_email"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
-                android:background="@drawable/edit_item_shape"
-                android:drawableStart="@drawable/ic_email"
-                android:drawablePadding="7dp"
-                android:hint="Email:"
-                android:inputType="textPersonName"
-                android:imeOptions="actionNext"/>
-            <EditText
-                android:id="@+id/edit_userName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_marginTop="25dp"
-                android:background="@drawable/edit_item_shape"
-                android:drawableStart="@drawable/ic_user"
-                android:drawablePadding="7dp"
-                android:hint="User Name:"
-                android:inputType="textPersonName"
-                android:imeOptions="actionNext"/>
-            <EditText
-                android:id="@+id/edit_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/edit_item_shape"
-                android:drawableStart="@drawable/ic_password"
-                android:drawablePadding="7dp"
-                android:hint="Password:"
-                android:inputType="textPassword"
-                android:imeOptions="actionDone"/>
+                android:layout_marginBottom="25dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="35dp">
 
-            <TextView
-                android:id="@+id/text_sex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginTop="20dp"
-                android:text="เพศ :"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:textSize="24sp"/>
-            <RadioGroup
-                android:id="@+id/radioGroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <RadioButton
-                    android:id="@+id/radMale"
+                <ImageView
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:src="@drawable/logo_register"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="centerCrop"/>
+
+                <EditText
+                    android:id="@+id/edit_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"
+                    android:background="@drawable/edit_item_shape"
+                    android:drawableStart="@drawable/ic_email"
+                    android:drawablePadding="7dp"
+                    android:hint="Email:"
+                    android:inputType="textPersonName"
+                    android:imeOptions="actionNext"/>
+                <EditText
+                    android:id="@+id/edit_userName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/edit_item_shape"
+                    android:drawableStart="@drawable/ic_user"
+                    android:drawablePadding="7dp"
+                    android:hint="User Name:"
+                    android:inputType="textPersonName"
+                    android:imeOptions="actionNext"/>
+                <EditText
+                    android:id="@+id/edit_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/edit_item_shape"
+                    android:drawableStart="@drawable/ic_password"
+                    android:drawablePadding="7dp"
+                    android:hint="Password:"
+                    android:inputType="textPassword"
+                    android:imeOptions="actionDone"/>
+
+                <TextView
+                    android:id="@+id/text_sex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:text="ชาย"
-                    android:textSize="22sp"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="20dp"
+                    android:text="เพศ :"
+                    android:textColor="#000000"
                     android:textStyle="bold"
-                    android:textColor="#000000"/>
-                <RadioButton
-                    android:id="@+id/radFeMale"
-                    android:layout_width="wrap_content"
+                    android:textSize="24sp"/>
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:text="หญิง"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    android:textColor="#000000"/>
-            </RadioGroup>
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/radMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="25dp"
+                        android:text="ชาย"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="#000000"/>
+                    <RadioButton
+                        android:id="@+id/radFeMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="หญิง"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="#000000"/>
+                </RadioGroup>
 
-            <Button
-                android:id="@+id/button_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/button_item_shape"
-                android:fontFamily="@font/gitchgitchbold"
-                android:text="Register"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@drawable/text_state"/>
+                <Button
+                    android:id="@+id/button_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/button_item_shape"
+                    android:fontFamily="@font/gitchgitchbold"
+                    android:text="Register"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@drawable/text_state"/>
+
+            </LinearLayout>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

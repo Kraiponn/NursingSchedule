@@ -1,17 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:padding="5dp"
+    android:layout_marginTop="0.75dp"
+    android:layout_marginBottom="0.75dp">
+
+    <ImageView
+        android:id="@+id/imageChild_shiftType"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="7dp"
+        android:src="@drawable/ic_afternoon"/>
 
     <TextView
-        android:id="@+id/textSection_topic"
-        android:layout_width="wrap_content"
+        android:id="@+id/textChild_location"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_margin="7dp"
-        android:textSize="18sp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="7dp"
+        android:textSize="15sp"
         android:textColor="#000"
         android:textStyle="bold"
-        android:text="09 April"/>
+        android:text="Location"/>
+
+    <TextView
+        android:id="@+id/textChild_shiftType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="5dp"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:text="Morning"/>
 
 </LinearLayout>

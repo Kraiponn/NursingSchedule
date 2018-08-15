@@ -81,6 +81,11 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            finish();
+            overridePendingTransition(
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right
+            );
         }
     }
 
@@ -300,7 +305,7 @@ public class MainActivity extends AppCompatActivity
         public void onClick(View v) {
             Intent intent = new Intent(
                     MainActivity.this,
-                    ViewScheduleRecordActivity.class
+                    ViewScheduleActivity.class
             );
             intent.putExtra("user_working", mUser);
             startActivity(intent);
@@ -330,7 +335,16 @@ public class MainActivity extends AppCompatActivity
     View.OnClickListener btnViewTeamClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    FindWorkMateActivity.class
+            );
+            intent.putExtra("user_working", mUser);
+            startActivity(intent);
+
+            overridePendingTransition(
+                    R.anim.from_bottom, R.anim.to_top
+            );
         }
     };
 

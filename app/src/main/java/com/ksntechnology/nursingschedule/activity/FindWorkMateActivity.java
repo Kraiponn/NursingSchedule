@@ -6,8 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import com.ksntechnology.nursingschedule.R;
+import com.ksntechnology.nursingschedule.fragment.WorkMateDetailFragment;
 import com.ksntechnology.nursingschedule.fragment.WorkMateMainFragment;
 
 public class FindWorkMateActivity extends AppCompatActivity
@@ -67,14 +69,29 @@ public class FindWorkMateActivity extends AppCompatActivity
 
 
     @Override
-    public void onCallWorkMate(String location, int month, int year) {
-        Intent intent = new Intent(
-                FindWorkMateActivity.this,
-                FindWorkMateDetailActivity.class
-        );
-        intent.putExtra("locaiton", location);
-        intent.putExtra("month", month);
-        intent.putExtra("year", year);
-        startActivity(intent);
+    public void setOnCallWorkMateDetail(String location, String shift, String date) {
+        FrameLayout moreInfo = findViewById(R.id.contentDetail_FindWorkMate);
+
+        if (moreInfo == null) {
+            Intent intent = new Intent(
+                    FindWorkMateActivity.this,
+                    FindWorkMateDetailActivity.class
+            );
+            intent.putExtra("location", location);
+            intent.putExtra("date", date);
+            intent.putExtra("shift", shift);
+            startActivity(intent);
+            overridePendingTransition(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left
+            );
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.contentDetail_FindWorkMate,
+                            WorkMateDetailFragment.newInstance(
+                                    location, date, shift
+                            ))
+                    .commit();
+        }
     }
 }

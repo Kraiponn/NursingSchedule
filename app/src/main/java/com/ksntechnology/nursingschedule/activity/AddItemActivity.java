@@ -423,7 +423,11 @@ public class AddItemActivity extends AppCompatActivity {
         chkShiftMor.setChecked(false);
         chkShiftAft.setChecked(false);
         chkShiftNig.setChecked(false);
-        setWorkingDayType(WORK_NORMAL_DAY);
+        if (radFreeDay.isChecked()) {
+            setWorkingDayType(WORK_FREE_DAY);
+        } else {
+            setWorkingDayType(WORK_NORMAL_DAY);
+        }
     }
 
     private boolean checkMorningShift() {

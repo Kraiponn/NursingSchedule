@@ -32,6 +32,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class WorkMateMainFragment extends Fragment {
     private Button btnWorkMate;
+    private Button btnClearItem;
     private EditText edtDate;
     private Button btnDate;
     private EditText edtLocation;
@@ -41,13 +42,16 @@ public class WorkMateMainFragment extends Fragment {
     private RadioButton radAfternoon;
     private RadioButton radNight;
 
+    private static final String MORNING_SHIFT = "MORNING";
+    private static final String AFTERNOON_SHIFT = "AFTERNOON";
+    private static final String NIGHT_SHIFT = "NIGHT";
     private Disposable mDisposable;
     private ArrayList mArrLocation;
     private Observable<WorkLocationCollectionDao> mLocationObservalble;
     private String[] mLocationItem;
 
     public interface onCallWorkMateDetailListener{
-        void onCallWorkMate(String location, int month, int year);
+        void setOnCallWorkMateDetail(String location, String shift, String date);
     }
 
     public static WorkMateMainFragment newInstance() {
@@ -55,6 +59,11 @@ public class WorkMateMainFragment extends Fragment {
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Nullable
@@ -69,6 +78,12 @@ public class WorkMateMainFragment extends Fragment {
 
         initInstance(view, savedInstanceState);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        init();
     }
 
     @Override
@@ -89,15 +104,15 @@ public class WorkMateMainFragment extends Fragment {
         radAfternoon = view.findViewById(R.id.radioFind_Afternoon);
         radNight = view.findViewById(R.id.radioFind_Night);
         btnWorkMate = view.findViewById(R.id.buttonFind_WorkMate);
+        btnClearItem = view.findViewById(R.id.buttonFind_ClearItem);
 
         btnDate.setOnClickListener(btnDateClick);
         btnLocation.setOnClickListener(btnLocationClickListener);
         btnWorkMate.setOnClickListener(btnWorkMateClickListener);
-
-        init(savedInstanceState);
+        btnClearItem.setOnClickListener(btnClearClick);
     }
 
-    private void init(Bundle savedInstanceState) {
+    private void init() {
         mArrLocation = new ArrayList();
         mLocationObservalble =
                 HttpNursingRequest
@@ -213,18 +228,30 @@ public class WorkMateMainFragment extends Fragment {
             return;
         }
 
-        String location = edtLocation.getText().toString().trim();
-        String[] arrDate = edtDate.getText().toString().trim().split("-");
-        int month = Integer.valueOf(arrDate[1]);
-        int year = Integer.valueOf(arrDate[0]);
 
-        /*onCallWorkMateDetailListener listener =
+        String shift = "";
+        if (radMorning.isChecked()) {
+            shift = MORNING_SHIFT;
+        } else if (radMorning.isChecked()) {
+            shift = AFTERNOON_SHIFT;
+        } else {
+            shift = NIGHT_SHIFT;
+        }
+
+        String location = edtLocation.getText().toString().trim();
+        String date = edtDate.getText().toString().trim();
+        /*String[] arrDate = edtDate.getText().toString().trim().split("-");
+        int month = Integer.valueOf(arrDate[1]);
+        int year = Integer.valueOf(arrDate[0]);*/
+
+        //Log.d("RESULT", month + "-" + year + " Location " + location);
+        onCallWorkMateDetailListener listener =
                 (onCallWorkMateDetailListener) getActivity();
-        listener.onCallWorkMate(
+        listener.setOnCallWorkMateDetail(
                 location,
-                month,
-                year
-        );*/
+                shift,
+                date
+        );
     }
 
 
@@ -251,6 +278,17 @@ public class WorkMateMainFragment extends Fragment {
         public void onClick(View v) {
             //Log.d("GetDate", "Hello GetDate");
             getCurrentDate(v);
+        }
+    };
+
+    View.OnClickListener btnClearClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            edtDate.setText("");
+            edtLocation.setText("");
+            radMorning.setChecked(false);
+            radAfternoon.setChecked(false);
+            radNight.setChecked(false);
         }
     };
 

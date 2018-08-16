@@ -49,9 +49,9 @@ public interface NursingScheduleAPI {
     @POST("getnursing-bycondition.php")
     Observable<NursingItemCollectionDao> postObservableNursingByCondition(@Field("id") int id,
                                                                           @Field("select_mode") String select_mode,
-                                                                          @Field("month") int month,
-                                                                          @Field("year") int year,
-                                                                          @Field("location") String location);
+                                                                          @Field("date") String date,
+                                                                          @Field("location") String location,
+                                                                          @Field("shift") String shift);
 
     @FormUrlEncoded
     @POST("getnursingschedule.php")

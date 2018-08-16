@@ -58,7 +58,9 @@
             android:name=".activity.ViewScheduleActivity"
             android:theme="@style/AppThemeDefault" />
         <activity android:name=".activity.ViewNursingDetailActivity" />
-        <activity android:name=".activity.FindWorkMateActivity" />
+        <activity
+            android:name=".activity.FindWorkMateActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name=".activity.FindWorkMateDetailActivity"
             android:label="@string/title_activity_find_work_mate_detail"

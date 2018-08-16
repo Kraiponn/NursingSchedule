@@ -38,6 +38,13 @@ public class ViewNursingDetailFragment extends Fragment {
     private static final String MORNING_SHIFT = "MORNING";
     private static final String AFTERNOON_SHIFT = "AFTERNOON";
     private static final String NIGHT_SHIFT = "NIGHT";
+    private final String[] mThaiMonth = {
+            "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน",
+            "พฤษภาคม", "มิถุนายนต์", "กรกฎาคม", "สิงหาคม",
+            "กันยายน", "ตุลาคม", "พฤษจิกายน",
+            "ธันวาคม"
+    };
+
     private Disposable mDisposable;
     private Observable<NursingItemCollectionDao> mNursingObservalble;
 
@@ -89,7 +96,11 @@ public class ViewNursingDetailFragment extends Fragment {
                         .getInstance()
                         .getApi()
                         .postObservableNursingByCondition(
-                                mId, POST_MODE, 9, 2018, null)
+                                mId,
+                                POST_MODE,
+                                null,
+                                null,
+                                null)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
 
@@ -112,24 +123,33 @@ public class ViewNursingDetailFragment extends Fragment {
     }
 
     private void showDetailOnView(NursingItemCollectionDao dao) {
-        tvUserWorking.setText("ชื่อเจ้าของเวร : " + dao.getData().get(0).getUserWorking());
-        tvDate.setText("วันทำงาน: " + dao.getData().get(0).getDate());
-        tvFromTime.setText("จากเวลา: " + dao.getData().get(0).getFromTime());
-        tvToTime.setText("ถึงเวลา: " + dao.getData().get(0).getToTime());
+        tvUserWorking.setText("ชื่อพนักงาน : " + dao.getData().get(0).getUserWorking());
+        String strDate = "";
+        String[] arrDate = dao.getData().get(0).getDate().split("-");
+        int date = Integer.valueOf(arrDate[2]);
+        int month = Integer.valueOf(arrDate[1]);
+        int year = Integer.valueOf(arrDate[0]);
+        strDate = date + " ";
+        strDate += mThaiMonth[month - 1] + " ";
+        strDate += year + 543;
+
+        tvDate.setText("วันทำงาน: " + strDate);
+        tvFromTime.setText("เข้างาน: " + dao.getData().get(0).getFromTime());
+        tvToTime.setText("เลิกงาน: " + dao.getData().get(0).getToTime());
         tvLocation.setText("สถานที่ทำงาน: " + dao.getData().get(0).getLocation());
 
 
         if (dao.getData().get(0).getShift().equals(MORNING_SHIFT)) {
-            tvShiftType.setText("ช่วงเวลา(กะ): " + "เวรเช้า");
+            tvShiftType.setText("เวรเช้า");
             imgShift.setImageResource(R.drawable.ic_morning);
         }else if (dao.getData().get(0).getShift().equals(AFTERNOON_SHIFT)) {
-            tvShiftType.setText("ช่วงเวลา(กะ): " + "เวรบ่าย");
+            tvShiftType.setText("เวรบ่าย");
             imgShift.setImageResource(R.drawable.ic_afternoon);
         }else if (dao.getData().get(0).getShift().equals(NIGHT_SHIFT)) {
-            tvShiftType.setText("ช่วงเวลา(กะ): " + "เวรดึก");
+            tvShiftType.setText("เวรดึก");
             imgShift.setImageResource(R.drawable.ic_night);
         }else {
-            tvShiftType.setText("ช่วงเวลา(กะ): " + "วันหยุด");
+            tvShiftType.setText("วันหยุด");
             imgShift.setImageResource(R.drawable.ic_free_day);
         }
 

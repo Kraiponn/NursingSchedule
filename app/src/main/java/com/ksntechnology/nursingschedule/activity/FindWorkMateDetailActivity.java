@@ -1,17 +1,22 @@
 package com.ksntechnology.nursingschedule.activity;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.ksntechnology.nursingschedule.R;
+import com.ksntechnology.nursingschedule.fragment.WorkMateDetailFragment;
 import com.ksntechnology.nursingschedule.fragment.WorkMateMainFragment;
 
 public class FindWorkMateDetailActivity extends AppCompatActivity {
+    private Toolbar toolbar;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,18 +30,28 @@ public class FindWorkMateDetailActivity extends AppCompatActivity {
 
         initInstance();
         if (savedInstanceState == null) {
+            Intent itn = getIntent();
+            String location = itn.getStringExtra("location");
+            String shift = itn.getStringExtra("shift");
+            String date = itn.getStringExtra("date");
+
+            //Log.d("ResponsesXYZ", location + " " + date);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.contentMain_FindWorkMate,
-                            WorkMateMainFragment.newInstance())
+                    .add(R.id.contentDetail_FindWorkMate,
+                            WorkMateDetailFragment.newInstance(
+                                    location,
+                                    date,
+                                    shift
+                            ))
                     .commit();
         }
     }
 
     private void initInstance() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

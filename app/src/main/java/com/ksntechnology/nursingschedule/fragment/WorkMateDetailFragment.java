@@ -4,27 +4,46 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
+import android.widget.Toast;
 
 import com.ksntechnology.nursingschedule.R;
+import com.ksntechnology.nursingschedule.adapter.WorkMateDetailAdapter;
+import com.ksntechnology.nursingschedule.dao.NursingItemCollectionDao;
+import com.ksntechnology.nursingschedule.manager.HttpNursingRequest;
+import com.ksntechnology.nursingschedule.manager.WorkMateDetailItemManager;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class WorkMateDetailFragment extends Fragment {
     private String mLocation;
-    private int mMonth;
-    private int mYear;
+    private String mShift;
+    private String mDate;
     private RecyclerView rcv;
+    private Disposable mDisposable;
+    private WorkMateDetailAdapter mAdapter;
+    private WorkMateDetailItemManager mDao;
+    private Observable<NursingItemCollectionDao> callDao;
 
     public static WorkMateDetailFragment newInstance(
-            String location, int month, int year
+            String location, String myDate,
+            String shift
     ) {
         WorkMateDetailFragment fragment = new WorkMateDetailFragment();
         Bundle args = new Bundle();
         args.putString("location", location);
-        args.putInt("month", month);
-        args.putInt("year", year);
+        args.putString("shift", shift);
+        args.putString("date", myDate);
         fragment.setArguments(args);
         return fragment;
     }
@@ -34,8 +53,9 @@ public class WorkMateDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             mLocation = getArguments().getString("location");
-            mMonth = getArguments().getInt("month");
-            mYear = getArguments().getInt("year");
+            mShift = getArguments().getString("shift");
+            mDate = getArguments().getString("date");
+            Log.d("ResponsesXYZ", mLocation + " " + mDate);
         }
     }
 
@@ -49,11 +69,62 @@ public class WorkMateDetailFragment extends Fragment {
                 container, false
         );
 
-        initInstance(view);
+        initInstance(view, savedInstanceState);
         return view;
     }
 
-    private void initInstance(View view) {
+    private void initInstance(View view, Bundle savedInstanceState) {
         rcv = view.findViewById(R.id.recyclerView_WorkMateDetail);
+        init(savedInstanceState);
     }
+
+    private void init(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            rcv.setHasFixedSize(true);
+            rcv.setLayoutManager(new GridLayoutManager(
+                    getContext(),
+                    2
+            ));
+
+            mDao = new WorkMateDetailItemManager();
+        }
+
+        callDao =
+                HttpNursingRequest
+                        .getInstance()
+                        .getApi()
+                        .postObservableNursingByCondition(
+                                9,
+                                "SELECT_WORKMATE_DETAIL_MODE",
+                                mDate,
+                                mLocation,
+                                mShift
+                        )
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+        mDisposable = callDao.subscribe(
+                new Consumer<NursingItemCollectionDao>() {
+                    @Override
+                    public void accept(NursingItemCollectionDao dao) throws Exception {
+                        mDao.setDao(dao);
+                        Toast.makeText(getContext(),
+                                dao.getData().size()+"",
+                                Toast.LENGTH_SHORT).show();
+                        mAdapter =
+                                new WorkMateDetailAdapter(getContext(), dao);
+                        rcv.setAdapter(mAdapter);
+                    }
+                },
+                new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Toast.makeText(getContext(),
+                                "Throw " + throwable.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+    }
+
+
 }

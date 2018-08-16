@@ -101,7 +101,7 @@ public class ViewScheduleRecordFragment extends Fragment {
                 container, false
         );
 
-        initInstance(view, savedInstanceState);
+        initInstance(view);
         return view;
     }
 
@@ -126,7 +126,7 @@ public class ViewScheduleRecordFragment extends Fragment {
     /**********************************
      *  Function
      */
-    private void initInstance(View view, Bundle savedInstanceState) {
+    private void initInstance(View view) {
         rcv = view.findViewById(R.id.recyclerViewFragment);
         spnnMonth = view.findViewById(R.id.spinner_month);
         spnnYear = view.findViewById(R.id.spinner_year);

@@ -12,15 +12,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
             android:gravity="center_horizontal"
-            android:layout_marginTop="30dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:background="#80ffffff"
+                android:layout_margin="10dp"
                 android:padding="20dp"
                 android:orientation="vertical">
 
@@ -30,6 +30,7 @@
                     android:textSize="24sp"
                     android:layout_marginTop="15dp"
                     android:layout_gravity="center_horizontal"
+                    android:textColor="#000"
                     android:text="ตรวจสอบเพื่อนร่วมงาน"/>
 
                 <!-- Date -->
@@ -41,6 +42,7 @@
                     android:gravity="center_horizontal">
                     <TextView
                         style="@style/TextLabelTopicStyle"
+                        android:textColor="#000"
                         android:text="วันทำงาน"/>
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -50,7 +52,7 @@
                             android:id="@+id/editFind_Date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:ems="7"
+                            android:ems="12"
                             style="@style/EditTextDateStyle"
                             android:hint="yyyy-mm-dd"/>
                         <Button
@@ -67,6 +69,7 @@
                 <TextView
                     style="@style/TextLabelTopicStyle"
                     android:textSize="16sp"
+                    android:textColor="#000"
                     android:text="สถานที่ทำงาน"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -76,7 +79,7 @@
                         android:id="@+id/editFind_Location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ems="15"
+                        android:ems="16"
                         style="@style/EditTextDateStyle"
                         android:hint="สถานที่"/>
                     <Button
@@ -93,6 +96,7 @@
                     style="@style/TextLabelTopicStyle"
                     android:textSize="16sp"
                     android:layout_marginTop="30dp"
+                    android:textColor="#000"
                     android:text="ช่วงเวลา(กะ)"/>
                 <RadioGroup
                     android:id="@+id/radioGroupFind_Shift"
@@ -102,14 +106,17 @@
                     <RadioButton
                         android:id="@+id/radioFind_Morning"
                         style="@style/RadioButtonItemStyle"
+                        android:textColor="#000"
                         android:text="เช้า"/>
                     <RadioButton
                         android:id="@+id/radioFind_Afternoon"
                         style="@style/RadioButtonItemStyle"
+                        android:textColor="#000"
                         android:text="บ่าย" />
                     <RadioButton
                         android:id="@+id/radioFind_Night"
                         style="@style/RadioButtonItemStyle"
+                        android:textColor="#000"
                         android:text="ดึก" />
                 </RadioGroup>
 

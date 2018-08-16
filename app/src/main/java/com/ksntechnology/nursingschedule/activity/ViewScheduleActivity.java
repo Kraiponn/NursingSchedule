@@ -58,8 +58,8 @@ public class ViewScheduleActivity extends AppCompatActivity
 
     @Override
     public void onShowDetail(int id) {
-        Toast.makeText(getApplicationContext(),
-                "ID No. " + id + " From fragment", Toast.LENGTH_SHORT).show();
+        /*Toast.makeText(getApplicationContext(),
+                "ID No. " + id + " From fragment", Toast.LENGTH_SHORT).show();*/
 
         FrameLayout ViewMoreInfo = findViewById(R.id.contentViewDetailContainer_right);
         if (ViewMoreInfo == null) {

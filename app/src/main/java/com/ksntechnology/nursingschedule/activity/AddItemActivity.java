@@ -110,7 +110,9 @@ public class AddItemActivity extends AppCompatActivity {
     private Button btnClearItem;
     private String mUser;
     private final String[] arrRemark = {
-            "Medical Nurse", "InCharge"
+            "Medical Nurse", "InCharge",
+            "Day", "Night",
+            "Other"
     };
 
     private final int TOAST_TYPE_SUCCESS = 1;

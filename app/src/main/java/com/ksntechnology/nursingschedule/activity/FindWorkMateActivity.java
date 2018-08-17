@@ -75,7 +75,7 @@ public class FindWorkMateActivity extends AppCompatActivity
         if (moreInfo == null) {
             Intent intent = new Intent(
                     FindWorkMateActivity.this,
-                    FindWorkMateDetailActivity.class
+                    FindWorkMateDetailsActivity.class
             );
             intent.putExtra("location", location);
             intent.putExtra("date", date);

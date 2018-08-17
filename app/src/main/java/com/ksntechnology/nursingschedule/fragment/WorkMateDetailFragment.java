@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.ksntechnology.nursingschedule.R;
 import com.ksntechnology.nursingschedule.adapter.WorkMateDetailAdapter;
 import com.ksntechnology.nursingschedule.dao.NursingItemCollectionDao;
+import com.ksntechnology.nursingschedule.dialog.MyAlertDialog;
 import com.ksntechnology.nursingschedule.manager.HttpNursingRequest;
 import com.ksntechnology.nursingschedule.manager.WorkMateDetailItemManager;
 
@@ -32,7 +33,7 @@ public class WorkMateDetailFragment extends Fragment {
     private RecyclerView rcv;
     private Disposable mDisposable;
     private WorkMateDetailAdapter mAdapter;
-    private WorkMateDetailItemManager mDao;
+    //private WorkMateDetailItemManager mDao;
     private Observable<NursingItemCollectionDao> callDao;
 
     public static WorkMateDetailFragment newInstance(
@@ -55,7 +56,7 @@ public class WorkMateDetailFragment extends Fragment {
             mLocation = getArguments().getString("location");
             mShift = getArguments().getString("shift");
             mDate = getArguments().getString("date");
-            Log.d("ResponsesXYZ", mLocation + " " + mDate);
+            //Log.d("ResponsesXYZ", mLocation + " " + mDate);
         }
     }
 
@@ -73,6 +74,24 @@ public class WorkMateDetailFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        cancelRequestData();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onStop() {
+        cancelRequestData();
+        super.onStop();
+    }
+
+    private void cancelRequestData() {
+        if (mDisposable != null && mDisposable.isDisposed()) {
+            mDisposable.dispose();
+        }
+    }
+
     private void initInstance(View view, Bundle savedInstanceState) {
         rcv = view.findViewById(R.id.recyclerView_WorkMateDetail);
         init(savedInstanceState);
@@ -83,10 +102,12 @@ public class WorkMateDetailFragment extends Fragment {
             rcv.setHasFixedSize(true);
             rcv.setLayoutManager(new GridLayoutManager(
                     getContext(),
-                    2
+                    2,
+                    GridLayoutManager.VERTICAL,
+                    false
             ));
 
-            mDao = new WorkMateDetailItemManager();
+            //mDao = new WorkMateDetailItemManager();
         }
 
         callDao =
@@ -106,10 +127,10 @@ public class WorkMateDetailFragment extends Fragment {
                 new Consumer<NursingItemCollectionDao>() {
                     @Override
                     public void accept(NursingItemCollectionDao dao) throws Exception {
-                        mDao.setDao(dao);
+                        /*mDao.setDao(dao);
                         Toast.makeText(getContext(),
                                 dao.getData().size()+"",
-                                Toast.LENGTH_SHORT).show();
+                                Toast.LENGTH_SHORT).show();*/
                         mAdapter =
                                 new WorkMateDetailAdapter(getContext(), dao);
                         rcv.setAdapter(mAdapter);
@@ -118,12 +139,27 @@ public class WorkMateDetailFragment extends Fragment {
                 new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Toast.makeText(getContext(),
+                        /*Toast.makeText(getContext(),
                                 "Throw " + throwable.getMessage(),
-                                Toast.LENGTH_SHORT).show();
+                                Toast.LENGTH_SHORT).show();*/
+                        showAlertDialog(
+                                "TimeOut Or Throwable!",
+                                "TimeOut: Throwable at " +
+                                        throwable.getMessage(),
+                                true
+                        );
                     }
                 }
         );
+    }
+
+
+    private void showAlertDialog(String title, String msg, boolean alertType) {
+        MyAlertDialog dialog = MyAlertDialog.newInstance(
+                title, msg, alertType
+        );
+
+        dialog.show(getFragmentManager(), null);
     }
 
 

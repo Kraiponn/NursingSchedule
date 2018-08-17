@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.ksntechnology.nursingschedule.R;
 import com.ksntechnology.nursingschedule.dao.SignInRegisterResultDao;
+import com.ksntechnology.nursingschedule.dialog.MyAlertDialog;
 import com.ksntechnology.nursingschedule.manager.HttpNursingRequest;
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
@@ -253,14 +254,27 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<SignInRegisterResultDao> call,
                                   Throwable t) {
-                toastMessage(
+                /*toastMessage(
                         "Login error " + t.getMessage(),
                         TOAST_TYPE_ERROR
+                );*/
+                showAlertDialog(
+                        "TimeOut Or Throwable!",
+                        "TimeOut: throwable at " +
+                                t.getMessage(),
+                        true
                 );
             }
         });
     }
 
+    private void showAlertDialog(String title, String msg, boolean alertType) {
+        MyAlertDialog dialog = MyAlertDialog.newInstance(
+                title, msg, alertType
+        );
+
+        dialog.show(getSupportFragmentManager(), null);
+    }
 
 
     /******************************

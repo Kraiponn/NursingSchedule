@@ -5,10 +5,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,11 +88,11 @@ public class SettingFragment extends PreferenceFragment {
                         if (systemMode == true) {
                             prefSystemMode.setSummary("Online Mode");
                             editor.putBoolean("check_system_mode", true);
-                            Log.d("Update", "system mode true");
+                            //Log.d("Update", "system mode true");
                         } else {
                             prefSystemMode.setSummary("Offline Mode");
                             editor.putBoolean("check_system_mode", false);
-                            Log.d("Update", "system mode false");
+                            //Log.d("Update", "system mode false");
                         }
 
                         boolean checkUpdate = sharedPreferences.getBoolean(
@@ -104,10 +101,10 @@ public class SettingFragment extends PreferenceFragment {
                         if (checkUpdate == true) {
                             prefUpdate.setSummary("Update when has a new update");
                             editor.putBoolean("check_update", true);
-                            Log.d("Update", "Check update true");
+                            //Log.d("Update", "Check update true");
                         } else {
                             prefUpdate.setSummary("Manual update");
-                            Log.d("Update", "Check update false");
+                            //Log.d("Update", "Check update false");
                         }
 
                         String fontSize = sharedPreferences.getString(
@@ -115,7 +112,7 @@ public class SettingFragment extends PreferenceFragment {
                         Preference prefFontSize = findPreference("font_size");
                         prefFontSize.setSummary(fontSize);
                         editor.putString("font_size", fontSize);
-                        Log.d("Update", "Font size " + fontSize);
+                        //Log.d("Update", "Font size " + fontSize);
 
                         editor.commit();
 

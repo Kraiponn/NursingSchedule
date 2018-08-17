@@ -1,6 +1,5 @@
 package com.ksntechnology.nursingschedule.activity;
 
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.annotation.Nullable;

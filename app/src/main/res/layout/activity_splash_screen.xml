@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="15dp"
-        android:text="Welcome to\n Nursing Record"
+        android:text="Welcome to\n Nursing Schedule"
         android:textSize="36sp"
         android:textStyle="bold"
         android:textColor="#f70707"

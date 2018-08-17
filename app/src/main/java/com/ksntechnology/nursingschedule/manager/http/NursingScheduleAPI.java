@@ -53,14 +53,14 @@ public interface NursingScheduleAPI {
                                                                           @Field("location") String location,
                                                                           @Field("shift") String shift);
 
-    @FormUrlEncoded
+    /*@FormUrlEncoded
     @POST("getnursingschedule.php")
     Call<NursingItemCollectionDao> postNursingSchedule(@Field("user_working") String userWorking,
                                                        @Field("month") int month,
                                                        @Field("year") int year);
 
     @POST("test.php")
-    Call<NursingItemCollectionDao> postTest();
+    Call<NursingItemCollectionDao> postTest();*/
 
     @GET("getworklocation.php")
     Observable<WorkLocationCollectionDao> getWorkLocation();

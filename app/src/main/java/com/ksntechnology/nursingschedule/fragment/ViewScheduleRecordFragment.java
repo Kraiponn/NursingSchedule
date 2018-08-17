@@ -1,16 +1,11 @@
 package com.ksntechnology.nursingschedule.fragment;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +13,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.ksntechnology.nursingschedule.R;
-import com.ksntechnology.nursingschedule.activity.ViewScheduleRecordActivity;
 import com.ksntechnology.nursingschedule.adapter.NursingItemAdapter;
 import com.ksntechnology.nursingschedule.dao.ChildItem;
 import com.ksntechnology.nursingschedule.dao.NursingItemCollectionDao;
@@ -111,9 +104,9 @@ public class ViewScheduleRecordFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
-    private void onReStoreSaveInstancestate(Bundle saveInstanceState) {
+    /*private void onReStoreSaveInstancestate(Bundle saveInstanceState) {
         //
-    }
+    }*/
 
     @Override
     public void onDestroy() {
@@ -272,53 +265,6 @@ public class ViewScheduleRecordFragment extends Fragment {
                 }
         );
     }
-
-    private void loadingData2() {
-        int month = spnnMonth.getSelectedItemPosition()+1;
-        int year = Integer.valueOf(spnnYear.getSelectedItem().toString())-543;
-        //Log.d("SPINNER", month + " BMW " + year);
-
-        Call<NursingItemCollectionDao> call =
-                HttpNursingRequest.getInstance().getApi().postNursingSchedule(
-                        mUserWorking, month, year
-                );
-        call.enqueue(new Callback<NursingItemCollectionDao>() {
-            @Override
-            public void onResponse(Call<NursingItemCollectionDao> call,
-                                   Response<NursingItemCollectionDao> response) {
-                if (response.isSuccessful()) {
-                    NursingItemCollectionDao dao = response.body();
-                    /*Log.d("SPINNER", "Hello success " +
-                        dao.getData().get(0).getLocation());*/
-                    setDataToRecyclerView(dao);
-                } else {
-                    /*Log.d("SPINNER", "Hello error404 "
-                            + response.errorBody().toString());*/
-                    FancyToast.makeText(
-                            getContext(),
-                            "Error " + response.errorBody().toString(),
-                            FancyToast.LENGTH_LONG,
-                            FancyToast.ERROR,
-                            true
-                    ).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<NursingItemCollectionDao> call,
-                                  Throwable t) {
-                //Log.d("SPINNER", "Hello throw " + t.getMessage());
-                FancyToast.makeText(
-                        getContext(),
-                        "Throw " + t.getMessage(),
-                        FancyToast.LENGTH_LONG,
-                        FancyToast.ERROR,
-                        true
-                ).show();
-            }
-        });
-    }
-
 
 
     /**********************************

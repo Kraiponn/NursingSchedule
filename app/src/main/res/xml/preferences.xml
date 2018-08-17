@@ -17,7 +17,7 @@
         android:summary="18"
         android:entries="@array/pref_font_size_entries"
         android:entryValues="@array/pref_font_size_entries_value"
-        android:dialogIcon="@drawable/ic_launcher"
+        android:dialogIcon="@drawable/ic_statistic"
         android:dialogTitle="Select font size"/>
 
 </PreferenceScreen>

@@ -14,42 +14,50 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="25dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="25dp"
                 android:layout_marginLeft="35dp"
                 android:layout_marginRight="35dp"
-                android:background="@drawable/bg_login_">
+                android:layout_marginTop="25dp"
+                android:background="@drawable/bg_login_"
+                android:orientation="vertical">
+
                 <EditText
                     android:id="@+id/edit_userName"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edit_item_shape"
-                    android:drawableStart="@drawable/ic_user"
                     android:drawablePadding="7dp"
+                    android:drawableStart="@drawable/ic_user"
+                    android:ems="17"
                     android:hint="User Name:"
-                    android:inputType="textPersonName"
-                    android:imeOptions="actionNext"/>
+                    android:imeOptions="actionNext"
+                    android:inputType="textPersonName" />
+
                 <EditText
                     android:id="@+id/edit_password"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/edit_item_shape"
-                    android:drawableStart="@drawable/ic_password"
                     android:drawablePadding="7dp"
+                    android:drawableStart="@drawable/ic_password"
+                    android:ems="17"
                     android:hint="Password:"
-                    android:inputType="textPassword"
-                    android:imeOptions="actionDone"/>
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword" />
 
                 <CheckBox
                     android:id="@+id/checkbox_remember"
@@ -57,34 +65,35 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:text="Remember me"
-                    android:textStyle="bold"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/button_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="35dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:layout_marginTop="35dp"
                     android:background="@drawable/button_item_shape"
-                    android:fontFamily="@font/seasrn"
-                    android:text="login"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@drawable/text_state"/>
+                    android:fontFamily="@font/android_robot"
+                    android:text="LogIn"
+                    android:textColor="@drawable/text_black_state"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/text_register"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:padding="5dp"
                     android:layout_marginTop="30dp"
-                    android:text="สมัครเข้าใช้งาน"
-                    android:textStyle="bold|italic"
+                    android:layout_marginRight="2dp"
+                    android:padding="5dp"
+                    android:text="สมัครสมาชิก"
+                    android:textColor="@drawable/text_register_state"
                     android:textSize="16sp"
-                    android:textColor="@drawable/text_register_state"/>
+                    android:textStyle="bold|italic" />
             </LinearLayout>
 
         </LinearLayout>

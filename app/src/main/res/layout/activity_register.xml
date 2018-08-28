@@ -5,13 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_edit_page"
     tools:context=".activity.RegisterActivity">
 
-    <ImageView
+    <!--<ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/bg_nurse3"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY"/>-->
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -22,26 +23,43 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="25dp"
                 android:layout_marginLeft="35dp"
                 android:layout_marginRight="35dp">
 
-                <ImageView
+                <!--<ImageView
                     android:layout_width="160dp"
                     android:layout_height="160dp"
                     android:src="@drawable/logo_register"
                     android:layout_gravity="center_horizontal"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"/>-->
+                <TextView
+                    style="@style/TextLabelTopicEditingPageStyle"
+                    android:layout_marginTop="7dp"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/android_7"
+                    android:textColor="#ff0004"
+                    android:textSize="36sp"
+                    android:text="N-Schedule"/>
+                <TextView
+                    style="@style/TextLabelTopicEditingPageStyle"
+                    android:layout_marginTop="2dp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#32ac06"
+                    android:textSize="20sp"
+                    android:text="ลงทะเบียน"/>
 
                 <EditText
                     android:id="@+id/edit_email"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="35dp"
+                    android:ems="17"
                     android:background="@drawable/edit_item_shape"
                     android:drawableStart="@drawable/ic_email"
                     android:drawablePadding="7dp"
@@ -50,9 +68,10 @@
                     android:imeOptions="actionNext"/>
                 <EditText
                     android:id="@+id/edit_userName"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
+                    android:ems="17"
                     android:background="@drawable/edit_item_shape"
                     android:drawableStart="@drawable/ic_user"
                     android:drawablePadding="7dp"
@@ -61,9 +80,10 @@
                     android:imeOptions="actionNext"/>
                 <EditText
                     android:id="@+id/edit_password"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
+                    android:ems="17"
                     android:background="@drawable/edit_item_shape"
                     android:drawableStart="@drawable/ic_password"
                     android:drawablePadding="7dp"
@@ -76,37 +96,42 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="25dp"
                     android:text="เพศ :"
-                    android:textColor="#000000"
+                    android:textColor="#ffffff"
                     android:textStyle="bold"
-                    android:textSize="24sp"/>
+                    android:textSize="20sp"/>
                 <RadioGroup
                     android:id="@+id/radioGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
                     android:orientation="horizontal">
                     <RadioButton
                         android:id="@+id/radMale"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="25dp"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radiobutton_left_state"
                         android:text="ชาย"
-                        android:textSize="22sp"
+                        android:textSize="18sp"
                         android:textStyle="bold"
-                        android:textColor="#000000"/>
+                        android:textColor="#ffffff"/>
                     <RadioButton
                         android:id="@+id/radFeMale"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="0dp"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radiobutton_right_state"
                         android:text="หญิง"
-                        android:textSize="22sp"
+                        android:textSize="18sp"
                         android:textStyle="bold"
-                        android:textColor="#000000"/>
+                        android:textColor="#ffffff"/>
                 </RadioGroup>
 
-                <Button
+                <!--<Button
                     android:id="@+id/button_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -118,11 +143,41 @@
                     android:text="Register"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@drawable/text_state"/>
+                    android:textColor="@drawable/text_state"/>-->
 
             </LinearLayout>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <!-- Button Clear And Add Item -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/buttonRegisterBack"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_red_state"
+            android:text="ย้อนกลับ"
+            android:textColor="@drawable/text_state"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+        <Button
+            android:id="@+id/button_register"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_green_state"
+            android:text="ยืนยันการลงทะเบียน"
+            android:textColor="@drawable/text_state"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+    </LinearLayout>
 
 </RelativeLayout>

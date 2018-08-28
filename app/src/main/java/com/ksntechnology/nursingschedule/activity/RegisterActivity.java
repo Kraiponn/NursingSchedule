@@ -14,6 +14,9 @@ import com.ksntechnology.nursingschedule.dao.SignInRegisterResultDao;
 import com.ksntechnology.nursingschedule.manager.HttpNursingRequest;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,10 +29,15 @@ public class RegisterActivity extends AppCompatActivity {
     private RadioButton radMale;
     private RadioButton radFeMale;
     private Button btnRegister;
+    private Button btnBack;
 
     private final int TOAST_TYPE_SUCCESS = 1;
     private final int TOAST_TYPE_WARNING = 2;
     private final int TOAST_TYPE_ERROR = 3;
+    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                                                "[a-zA-Z0-9_+&*-]+)*@" +
+                                                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                                                "A-Z]{2,7}$";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +78,10 @@ public class RegisterActivity extends AppCompatActivity {
         radMale = findViewById(R.id.radMale);
         radFeMale = findViewById(R.id.radFeMale);
         btnRegister = findViewById(R.id.button_register);
+        btnBack = findViewById(R.id.buttonRegisterBack);
 
         btnRegister.setOnClickListener(btnRegisterClickListener);
+        btnBack.setOnClickListener(btnBackClicked);
     }
 
     private void toastMessage(String text, int alertType) {
@@ -115,7 +125,10 @@ public class RegisterActivity extends AppCompatActivity {
         if (email.equals("")) {
             setAlertEditView(edtEmail, "กรุณาใส่ Email ในการลงทะเบียน");
             return;
-        } else if (userName.equals("")) {
+        }else if (!emailValidator(email)) {
+            setAlertEditView(edtEmail, "กรุณาใส่รูปแบบ Email ไม่ถูกต้อง");
+            return;
+        }else if (userName.equals("")) {
             setAlertEditView(edtUserName, "กรุณาใส่ชื่อในการลงทะเบียน");
             return;
         }else if (password.equals("")) {
@@ -202,6 +215,21 @@ public class RegisterActivity extends AppCompatActivity {
                 .show();
     }
 
+    public boolean emailValidator(String email)
+    {
+        Pattern pattern;
+        Matcher matcher;
+
+        try {
+            pattern = Pattern.compile(EMAIL_PATTERN);
+            matcher = pattern.matcher(email);
+            return matcher.matches();
+        } catch (Exception ex) {
+            return false;
+        }
+
+    }
+
 
     /********************************
      *  Listener Zone
@@ -213,6 +241,11 @@ public class RegisterActivity extends AppCompatActivity {
         }
     };
 
-
+    View.OnClickListener btnBackClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onBackPressed();
+        }
+    };
 
 }

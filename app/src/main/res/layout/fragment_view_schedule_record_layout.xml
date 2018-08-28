@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#dfdfdf"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -13,8 +14,8 @@
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/imageBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="29dp"
+            android:layout_height="29dp"
             android:layout_marginLeft="7dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_back_white"/>
@@ -32,8 +33,8 @@
             android:popupBackground="@drawable/spinner_item_shap"></Spinner>
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewFragment"
+    <!--<android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewFragment2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/layoutSearch"
@@ -41,7 +42,25 @@
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="5dp"
-        android:paddingBottom="30dp"></android.support.v7.widget.RecyclerView>
+        android:paddingBottom="30dp"></android.support.v7.widget.RecyclerView>-->
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/layoutSearch"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="30dp">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewFragment2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/child_item_view_layout"
+            android:layout_margin="10dp"></android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,9 +78,6 @@
                 android:text="Nursing Schedule"
                 style="@style/TextBottomTopicStyle"
                 android:fontFamily="@font/baubau"/>
-            <!--<TextView
-                style="@style/TextBottomTopicStyle"
-                android:text="OverTime(hrs)"/>-->
         </LinearLayout>
 
     </LinearLayout>

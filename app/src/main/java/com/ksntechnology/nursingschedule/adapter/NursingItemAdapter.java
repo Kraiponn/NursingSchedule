@@ -15,6 +15,7 @@ import com.ksntechnology.nursingschedule.dao.ChildItem;
 import com.ksntechnology.nursingschedule.dao.NursingItemCollectionDao;
 import com.ksntechnology.nursingschedule.dao.NursingItemDao;
 import com.ksntechnology.nursingschedule.dao.SectionItem;
+import com.ksntechnology.nursingschedule.manager.NursingListManager;
 
 import java.util.List;
 
@@ -25,9 +26,15 @@ public class NursingItemAdapter extends RecyclerView.Adapter {
     private static final int CHILD_ITEM = 1;
     private boolean mIsFirstChild = true;
     private onItemSelectListener mCallBack;
+    private onLongItemSelectListener mCallBackLongClicked;
+
 
     public interface onItemSelectListener{
         void onItemSelect(View view, int position, int id);
+    }
+
+    public interface onLongItemSelectListener{
+        void onLongItemSelect(View view, int position, int id);
     }
 
     public NursingItemAdapter(Context mContext, List mDao) {
@@ -37,6 +44,10 @@ public class NursingItemAdapter extends RecyclerView.Adapter {
 
     public void setOnItemSelectListener(onItemSelectListener listener) {
         mCallBack = listener;
+    }
+
+    public void setOnLongItemSelectListener(onLongItemSelectListener listener) {
+        mCallBackLongClicked = listener;
     }
 
     @NonNull
@@ -113,6 +124,7 @@ public class NursingItemAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
+        //return dao.getData().size();
         return mItem.size();
     }
 
@@ -157,6 +169,16 @@ public class NursingItemAdapter extends RecyclerView.Adapter {
                     int pos = getAdapterPosition();
                     ChildItem item = (ChildItem) mItem.get(pos);
                     mCallBack.onItemSelect(v, pos, item.getId());
+                }
+            });
+
+            cv.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    int pos = getAdapterPosition();
+                    ChildItem item = (ChildItem) mItem.get(pos);
+                    mCallBackLongClicked.onLongItemSelect(v, pos, item.getId());
+                    return true;
                 }
             });
         }

@@ -226,7 +226,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(
                                 LoginActivity.this,
-                                MainActivity.class
+                                MainControlActivity.class
                         );
                         intent.putExtra("user_name", user_name);
                         intent.putExtra("email", email);
@@ -304,7 +304,7 @@ public class LoginActivity extends AppCompatActivity {
             ));
             overridePendingTransition(
                     R.anim.slide_in_right,
-                    R.anim.slide_in_left
+                    R.anim.slide_out_left
             );
         }
     };

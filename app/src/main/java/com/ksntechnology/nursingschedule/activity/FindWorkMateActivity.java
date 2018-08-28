@@ -14,7 +14,6 @@ import com.ksntechnology.nursingschedule.fragment.WorkMateMainFragment;
 
 public class FindWorkMateActivity extends AppCompatActivity
         implements WorkMateMainFragment.onCallWorkMateDetailListener{
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,25 +36,9 @@ public class FindWorkMateActivity extends AppCompatActivity
     }
 
     private void initInstance() {
-        toolbar = findViewById(R.id.toolbarFindWorkMate);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //
     }
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            overridePendingTransition(
-                    R.anim.from_top,
-                    R.anim.to_bottom
-            );
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onBackPressed() {

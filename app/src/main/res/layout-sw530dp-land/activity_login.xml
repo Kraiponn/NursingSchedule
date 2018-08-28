@@ -71,11 +71,11 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/button_item_shape"
-                    android:fontFamily="@font/seasrn"
-                    android:text="login"
+                    android:fontFamily="@font/android_robot"
+                    android:text="LogIn"
+                    android:textColor="@drawable/text_black_state"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@drawable/text_state"/>
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/text_register"

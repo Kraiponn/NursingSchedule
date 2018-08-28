@@ -10,5 +10,7 @@
     <color name="text_register_normal">#000000</color>
     <color name="text_register_active">#80000000</color>
     <color name="text_color">#222222</color>
+    <color name="check_white_state">#FFFFFF</color>
+    <color name="check_pink_state">#f2085e</color>
 
 </resources>

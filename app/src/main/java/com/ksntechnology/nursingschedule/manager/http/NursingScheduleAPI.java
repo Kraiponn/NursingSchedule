@@ -2,6 +2,7 @@ package com.ksntechnology.nursingschedule.manager.http;
 
 import com.ksntechnology.nursingschedule.dao.AddNursingItemDao;
 import com.ksntechnology.nursingschedule.dao.NursingItemCollectionDao;
+import com.ksntechnology.nursingschedule.dao.ResultDeleteEditDao;
 import com.ksntechnology.nursingschedule.dao.SignInRegisterResultDao;
 import com.ksntechnology.nursingschedule.dao.WorkLocationCollectionDao;
 
@@ -31,6 +32,20 @@ public interface NursingScheduleAPI {
     @FormUrlEncoded
     @POST("insertitem.php")
     Call<AddNursingItemDao> feedToServer(@Field("user_working") String user_working,
+                                         @Field("date") String date,
+                                         @Field("from_time") String from_time,
+                                         @Field("to_time") String to_time,
+                                         @Field("shift") String shift,
+                                         @Field("job_type") String job_type,
+                                         @Field("location") String location,
+                                         @Field("remark") String remark);
+
+    @FormUrlEncoded
+    @POST("delete-edit.php")
+    Observable<ResultDeleteEditDao> postDeleteOrEdit(
+                                         @Field("POST_MODE") String postMode,
+                                         @Field("id") int id,
+                                         @Field("user_working") String user_working,
                                          @Field("date") String date,
                                          @Field("from_time") String from_time,
                                          @Field("to_time") String to_time,

@@ -13,27 +13,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeDefault">
         <activity android:name=".activity.SplashScreenActivity">
+
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            -->
         </activity>
-        <activity
-            android:name=".activity.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppThemeDefault" />
         <activity
             android:name=".activity.SettingActivity"
             android:theme="@style/AppThemeDefault" />
         <activity
             android:name=".activity.LoginActivity"
             android:windowSoftInputMode="adjustResize|stateHidden">
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.RegisterActivity"
@@ -48,7 +47,13 @@
         <activity
             android:name=".activity.FindWorkMateActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".activity.FindWorkMateDetailsActivity"></activity>
+        <activity android:name=".activity.FindWorkMateDetailsActivity" />
+        <activity
+            android:name=".activity.EditingActivity"
+            android:theme="@style/AppThemeDefault" />
+        <activity
+            android:name=".activity.MainControlActivity"
+            android:theme="@style/AppThemeDefault"></activity>
     </application>
 
 </manifest>

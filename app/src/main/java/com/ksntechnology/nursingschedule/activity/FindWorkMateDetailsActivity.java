@@ -11,7 +11,6 @@ import com.ksntechnology.nursingschedule.R;
 import com.ksntechnology.nursingschedule.fragment.WorkMateDetailFragment;
 
 public class FindWorkMateDetailsActivity extends AppCompatActivity {
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,22 +43,17 @@ public class FindWorkMateDetailsActivity extends AppCompatActivity {
     }
 
     private void initInstance() {
-        toolbar = findViewById(R.id.toolbarFindWorkMateDetail);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            overridePendingTransition(
-                    R.anim.from_top,
-                    R.anim.to_bottom
-            );
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        overridePendingTransition(
+                R.anim.from_top,
+                R.anim.to_bottom
+        );
     }
+
 }

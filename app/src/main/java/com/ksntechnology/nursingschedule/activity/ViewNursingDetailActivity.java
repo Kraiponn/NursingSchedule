@@ -22,7 +22,6 @@ public class ViewNursingDetailActivity extends AppCompatActivity {
             //
         }
 
-        initInstance();
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             int id = intent.getIntExtra("id", 0);
@@ -32,9 +31,6 @@ public class ViewNursingDetailActivity extends AppCompatActivity {
                             ViewNursingDetailFragment.newInstance(id))
                     .commit();
         }
-    }
-
-    private void initInstance() {
     }
 
 

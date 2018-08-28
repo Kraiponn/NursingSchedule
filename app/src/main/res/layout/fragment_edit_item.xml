@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_edit_page"
+    tools:context=".activity.AddItemActivity">
+
+    <!-- Image For Background -->
+    <!--<ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg_nurse3"
+        android:scaleType="centerCrop"/>-->
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_marginBottom="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    style="@style/TextLabelTopicEditingPageStyle"
+                    android:layout_marginTop="7dp"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/android_7"
+                    android:textColor="#ff0004"
+                    android:textSize="36sp"
+                    android:text="N-Schedule"/>
+                <TextView
+                    style="@style/TextLabelTopicEditingPageStyle"
+                    android:layout_marginTop="2dp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#32ac06"
+                    android:textSize="20sp"
+                    android:text="แก้ไขข้อมูล"/>
+
+                <!-- Job Type -->
+                <TextView
+                    style="@style/TextLabelTopicEditingPageStyle"
+                    android:layout_marginTop="35dp"
+                    android:textSize="16sp"
+                    android:text="ประเภทงาน"/>
+                <RadioGroup
+                    android:id="@+id/radioGroup_jobType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/radio_realJob"
+                        style="@style/RadioButtonItemStyle.TextWhite"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radiobutton_left_state"
+                        android:text="เวรจริง"/>
+                    <RadioButton
+                        android:id="@+id/radio_otJob"
+                        style="@style/RadioButtonItemStyle.TextWhite"
+                        android:layout_marginLeft="0dp"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radiobutton_right_state"
+                        android:text="เวรพิเศษ(OT)" />
+                </RadioGroup>
+
+                <!-- From Time To Time -->
+                <TextView
+                    style="@style/TextLabelTopicEditingPageStyle"
+                    android:layout_marginTop="25dp"
+                    android:textSize="16sp"
+                    android:text="จากเวลา-ถึงเวลา"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/edit_fromTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/EditTextTimeStyle"
+                        android:hint="hh:mm:ss"/>
+                    <ImageButton
+                        android:id="@+id/imageButton_fromTime"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="2dp"
+                        android:background="@drawable/button_time_state"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="7dp"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#ffffff"
+                        android:text="To"/>
+
+                    <EditText
+                        android:id="@+id/edit_toTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        style="@style/EditTextTimeStyle"
+                        android:hint="hh:mm:ss"/>
+                    <ImageButton
+                        android:id="@+id/imageButton_toTime"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="2dp"
+                        android:background="@drawable/button_time_state"/>
+                </LinearLayout>
+
+                <!-- Location -->
+                <TextView
+                    style="@style/TextLabelTopicEditingPageStyle"
+                    android:layout_marginTop="25dp"
+                    android:textSize="16sp"
+                    android:text="สถานที่ทำงาน"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/edit_location"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        style="@style/EditTextDateStyle"
+                        android:hint="สถานที่"/>
+                    <ImageButton
+                        android:id="@+id/imageButton_location"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="1dp"
+                        android:background="@drawable/button_location_state"/>
+                </LinearLayout>
+
+                <!-- Remark -->
+                <TextView
+                    style="@style/TextLabelTopicEditingPageStyle"
+                    android:layout_marginTop="25dp"
+                    android:textSize="16sp"
+                    android:text="ตำแหน่ง(หน้าที่) ในทีม"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/edit_remark"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        style="@style/EditTextDateStyle"
+                        android:hint="Remark"/>
+                    <ImageButton
+                        android:id="@+id/imageButton_Remark"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="1dp"
+                        android:background="@drawable/button_location_state"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout><!-- Main Layout -->
+    </android.support.v4.widget.NestedScrollView>
+
+    <!-- Button Clear And Add Item -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/button_BackItem"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_red_state"
+            android:text="ย้อนกลับ"
+            android:textColor="@drawable/text_state"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+        <Button
+            android:id="@+id/button_UpdateItem"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_green_state"
+            android:text="ยืนยันแก้ไขข้อมูล"
+            android:textColor="@drawable/text_state"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+</RelativeLayout>

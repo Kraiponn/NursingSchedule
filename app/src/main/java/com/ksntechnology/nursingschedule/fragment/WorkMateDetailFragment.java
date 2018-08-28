@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ksntechnology.nursingschedule.R;
 import com.ksntechnology.nursingschedule.adapter.WorkMateDetailAdapter;
@@ -27,6 +28,7 @@ public class WorkMateDetailFragment extends Fragment {
     private String mShift;
     private String mDate;
     private RecyclerView rcv;
+    private TextView tvResult;
     private Disposable mDisposable;
     private WorkMateDetailAdapter mAdapter;
     //private WorkMateDetailItemManager mDao;
@@ -90,6 +92,7 @@ public class WorkMateDetailFragment extends Fragment {
 
     private void initInstance(View view, Bundle savedInstanceState) {
         rcv = view.findViewById(R.id.recyclerView_WorkMateDetail);
+        tvResult = view.findViewById(R.id.textResultState);
         init(savedInstanceState);
     }
 
@@ -127,9 +130,7 @@ public class WorkMateDetailFragment extends Fragment {
                         Toast.makeText(getContext(),
                                 dao.getData().size()+"",
                                 Toast.LENGTH_SHORT).show();*/
-                        mAdapter =
-                                new WorkMateDetailAdapter(getContext(), dao);
-                        rcv.setAdapter(mAdapter);
+                        setResponseToView(dao);
                     }
                 },
                 new Consumer<Throwable>() {
@@ -147,6 +148,17 @@ public class WorkMateDetailFragment extends Fragment {
                     }
                 }
         );
+    }
+
+    private void setResponseToView(NursingItemCollectionDao dao) {
+        if (dao.getData().size() > 0) {
+            tvResult.setVisibility(View.GONE);
+            mAdapter =
+                    new WorkMateDetailAdapter(getContext(), dao);
+            rcv.setAdapter(mAdapter);
+        } else {
+            tvResult.setVisibility(View.VISIBLE);
+        }
     }
 
 

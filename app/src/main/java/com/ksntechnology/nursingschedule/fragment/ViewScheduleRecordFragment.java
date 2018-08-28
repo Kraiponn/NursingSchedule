@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,7 +19,9 @@ import com.ksntechnology.nursingschedule.R;
 import com.ksntechnology.nursingschedule.adapter.NursingItemAdapter;
 import com.ksntechnology.nursingschedule.dao.ChildItem;
 import com.ksntechnology.nursingschedule.dao.NursingItemCollectionDao;
+import com.ksntechnology.nursingschedule.dao.ResultDeleteEditDao;
 import com.ksntechnology.nursingschedule.dao.SectionItem;
+import com.ksntechnology.nursingschedule.dialog.ConfirmDialog;
 import com.ksntechnology.nursingschedule.manager.Contextor;
 import com.ksntechnology.nursingschedule.manager.HttpNursingRequest;
 import com.ksntechnology.nursingschedule.manager.NursingListManager;
@@ -32,9 +35,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ViewScheduleRecordFragment extends Fragment {
     /**********************************
@@ -49,6 +49,8 @@ public class ViewScheduleRecordFragment extends Fragment {
     private final String MORNING_SHIFT = "MORNING";
     private final String AFTERNOON_SHIFT = "AFTERNOON";
     private final String NIGHT_SHIFT = "NIGHT";
+    private static final int CONFIRM_DELETE = 1;
+    private static final int CONFIRM_EDIT = 2;
 
     private String mUserWorking = "";
     private NursingItemAdapter mAdapter;
@@ -59,6 +61,8 @@ public class ViewScheduleRecordFragment extends Fragment {
     private Spinner spnnYear;
     private RecyclerView rcv;
     private ImageView imgBack;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
 
     public interface onBackClickListener{
         void onBackClick();
@@ -66,6 +70,10 @@ public class ViewScheduleRecordFragment extends Fragment {
 
     public interface onShowDetailListener{
         void onShowDetail(int id);
+    }
+
+    public interface onCallEditOrDeleteListener{
+        void onCallEditOrDelete(int id);
     }
 
     public static ViewScheduleRecordFragment newInstance(String userWorking) {
@@ -108,6 +116,7 @@ public class ViewScheduleRecordFragment extends Fragment {
         //
     }*/
 
+
     @Override
     public void onDestroy() {
         if (mDisposable != null && mDisposable.isDisposed()) {
@@ -120,16 +129,28 @@ public class ViewScheduleRecordFragment extends Fragment {
      *  Function
      */
     private void initInstance(View view) {
-        rcv = view.findViewById(R.id.recyclerViewFragment);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        rcv = view.findViewById(R.id.recyclerViewFragment2);
         spnnMonth = view.findViewById(R.id.spinner_month);
         spnnYear = view.findViewById(R.id.spinner_year);
         imgBack = view.findViewById(R.id.imageBack);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //Toast.makeText(getContext(), "Refresh success", Toast.LENGTH_LONG).show();
+                swipeRefreshLayout.setRefreshing(false);
+                loadingData();
+            }
+        });
         imgBack.setOnClickListener(imageBackClickListener);
+
+        //setHasOptionsMenu(true);
         setConditionView();
     }
 
     private void setConditionView() {
+        mDao = new NursingListManager();
         rcv.setHasFixedSize(true);
         rcv.setLayoutManager(new LinearLayoutManager(
                 getContext(),
@@ -176,6 +197,7 @@ public class ViewScheduleRecordFragment extends Fragment {
         int id;
         ArrayList item = new ArrayList();
 
+
         for (int i=0; i<dao.getData().size(); i++) {
             id = dao.getData().get(i).getId();
             fDate = dao.getData().get(i).getDate();
@@ -189,7 +211,6 @@ public class ViewScheduleRecordFragment extends Fragment {
                 dateMonth += " " + mThaiMonth[iMonth-1];
                 item.add(new SectionItem(dateMonth));
 
-                //Log.d("RecyclerView", "Result " + dateMonth);
                 lastDate = fDate;
             }
 
@@ -218,16 +239,104 @@ public class ViewScheduleRecordFragment extends Fragment {
             ));
         }
 
-        //Log.d("SPINNER", "Hello Adapter");
+        showData(item);
+    }
+
+    private void showData(ArrayList item) {
         mAdapter = new NursingItemAdapter(getActivity(), item);
+        /*rcv.setHasFixedSize(true);
+        rcv.setLayoutManager(new LinearLayoutManager(
+                getContext(),
+                RecyclerView.VERTICAL,
+                false
+        ));*/
         rcv.setAdapter(mAdapter);
+
         mAdapter.setOnItemSelectListener(new NursingItemAdapter.onItemSelectListener() {
             @Override
             public void onItemSelect(View view, int position, int id) {
-                /*Toast.makeText(getContext(),
-                        "Select " + id, Toast.LENGTH_SHORT).show();*/
                 onShowDetailListener listener = (onShowDetailListener) getActivity();
                 listener.onShowDetail(id);
+            }
+        });
+
+        mAdapter.setOnLongItemSelectListener(new NursingItemAdapter.onLongItemSelectListener() {
+            @Override
+            public void onLongItemSelect(View view, final int position, final int id) {
+                ConfirmDialog dialog = ConfirmDialog.newInstance(
+                        "คุณต้องการแก้ไขหรือลบรายงานนี้",
+                        "ลบข้อมูล","แก้ไขข้อมูล"
+                );
+
+                dialog.show(getFragmentManager(), null);
+                dialog.setOnFinishDialogListener(new ConfirmDialog.onFinishDialogListener() {
+                    @Override
+                    public void onFinishDialog(int selectIndex) {
+                        if (selectIndex == CONFIRM_DELETE) {
+                            deleteItem(id, position);
+                        } else if (selectIndex == CONFIRM_EDIT) {
+                            onCallEditOrDeleteListener listener =
+                                        (onCallEditOrDeleteListener) getActivity();
+                            listener.onCallEditOrDelete(id);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private void showToastMsg(String text, int toastType) {
+        FancyToast.makeText(
+                Contextor.getInstance().getContext(),
+                text,
+                FancyToast.LENGTH_LONG,
+                toastType,
+                true
+        ).show();
+    }
+
+    private void deleteItem(int id, final int position) {
+        String userWorking = mUserWorking;
+        String postMode = "DELETE";
+        Observable<ResultDeleteEditDao> postDelete =
+                HttpNursingRequest
+                        .getInstance()
+                        .getApi()
+                        .postDeleteOrEdit(
+                                postMode,
+                                id,
+                                mUserWorking,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null
+                        )
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+
+        mDisposable = postDelete.subscribe(new Consumer<ResultDeleteEditDao>() {
+            @Override
+            public void accept(ResultDeleteEditDao response) throws Exception {
+                if (response.getErrMsg().equals("SUCCESS")) {
+                    loadingData();
+                    //mAdapter.notifyItemRemoved(position);
+                    rcv.scrollToPosition(position-1);
+                    showToastMsg(
+                            "ลบข้อมูลสำเร็จ",
+                            FancyToast.SUCCESS
+                    );
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                showToastMsg(
+                        "Throw " + throwable.getMessage(),
+                        FancyToast.ERROR
+                );
             }
         });
     }
@@ -235,7 +344,7 @@ public class ViewScheduleRecordFragment extends Fragment {
     private void loadingData() {
         int month = spnnMonth.getSelectedItemPosition()+1;
         int year = Integer.valueOf(spnnYear.getSelectedItem().toString())-543;
-        //Log.d("SPINNER", month + " BMW " + year);
+        //mUserWorking = "admin";
 
         Observable<NursingItemCollectionDao> mNursingObservalble =
                 HttpNursingRequest
@@ -248,19 +357,17 @@ public class ViewScheduleRecordFragment extends Fragment {
                 new Consumer<NursingItemCollectionDao>() {
                     @Override
                     public void accept(NursingItemCollectionDao dao) throws Exception {
+                        //mDao.setDao(dao);
                         setDataToRecyclerView(dao);
                     }
                 },
                 new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        FancyToast.makeText(
-                                Contextor.getInstance().getContext(),
+                        showToastMsg(
                                 "Throw " + throwable.getMessage(),
-                                FancyToast.LENGTH_LONG,
-                                FancyToast.ERROR,
-                                true
-                        ).show();
+                                FancyToast.ERROR
+                        );
                     }
                 }
         );
@@ -274,7 +381,6 @@ public class ViewScheduleRecordFragment extends Fragment {
         @Override
         public void onItemSelected(AdapterView<?> parent,
                                    View view, int position, long id) {
-            //Log.d("SPINNER", "Result spinner month");
             loadingData();
         }
 
@@ -287,7 +393,6 @@ public class ViewScheduleRecordFragment extends Fragment {
     AdapterView.OnItemSelectedListener spinnerYearItemSelect = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            //Log.d("SPINNER", "Result spinner year");
             loadingData();
         }
 

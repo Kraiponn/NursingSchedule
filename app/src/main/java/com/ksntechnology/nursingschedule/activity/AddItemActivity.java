@@ -441,6 +441,12 @@ public class AddItemActivity extends AppCompatActivity {
                         edtLocationMor);
                 result = false;
                 return result;
+            }else if (edtRemarkMor.getText().toString().trim().equals("")) {
+                setAlertEditView(
+                        "คุณยังไม่ได้ระบุหน้าที่(ตำแหน่ง)ในทีม",
+                        edtRemarkMor);
+                result = false;
+                return result;
             }
         }
 
@@ -475,6 +481,12 @@ public class AddItemActivity extends AppCompatActivity {
                 setAlertEditView(
                         "คุณยังไม่ได้ระบุสถานที่ ที่เข้างาน",
                         edtLocationAft);
+                result = false;
+                return result;
+            }else if (edtRemarkAft.getText().toString().trim().equals("")) {
+                setAlertEditView(
+                        "คุณยังไม่ได้ระบุหน้าที่(ตำแหน่ง)ในทีม",
+                        edtRemarkAft);
                 result = false;
                 return result;
             }
@@ -513,6 +525,12 @@ public class AddItemActivity extends AppCompatActivity {
                         edtLocationNig);
                 result = false;
                 return result;
+            }else if (edtRemarkNig.getText().toString().trim().equals("")) {
+                setAlertEditView(
+                        "คุณยังไม่ได้ระบุหน้าที่(ตำแหน่ง)ในทีม",
+                        edtRemarkNig);
+                result = false;
+                return result;
             }
         }
 
@@ -523,7 +541,7 @@ public class AddItemActivity extends AppCompatActivity {
     private void InsertItem() {
         if (edtDate.getText().toString().trim().equals("")) {
             setAlertEditView(
-                    "คุณยังไม่ได้เระบุ วัน-เดือน-ปี ในการเข้างาน",
+                    "คุณยังไม่ได้ระบุ วัน-เดือน-ปี ในการเข้างาน",
                     edtDate);
         } else {
             if (radFreeDay.isChecked()) {

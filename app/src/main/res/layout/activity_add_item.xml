@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fcf9f9"
+    android:background="@drawable/bg_edit_page"
     tools:context=".activity.AddItemActivity">
 
     <!-- Image For Background -->
-    <ImageView
+    <!--<ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/bg_nurse3"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"/>-->
 
     <android.support.v4.widget.NestedScrollView
         android:layout_marginBottom="60dp"
@@ -23,6 +23,22 @@
             android:layout_height="match_parent"
             android:padding="20dp"
             android:orientation="vertical">
+
+            <TextView
+                style="@style/TextLabelTopicEditingPageStyle"
+                android:layout_marginTop="7dp"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/android_7"
+                android:textColor="#ff0004"
+                android:textSize="36sp"
+                android:text="N-Schedule"/>
+            <TextView
+                style="@style/TextLabelTopicEditingPageStyle"
+                android:layout_marginTop="2dp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#32ac06"
+                android:textSize="26dp"
+                android:text="เพิ่มข้อมูล"/>
 
             <!-- Date -->
             <LinearLayout
@@ -62,14 +78,20 @@
                 android:id="@+id/radioGroup_jobDay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
                 android:orientation="horizontal">
                 <RadioButton
                     android:id="@+id/radioFreeDay"
                     style="@style/RadioButtonItemStyle"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/radiobutton_left_state"
                     android:text="วันหยุด"/>
                 <RadioButton
                     android:id="@+id/radioWorkingDay"
                     style="@style/RadioButtonItemStyle"
+                    android:button="@android:color/transparent"
+                    android:background="@drawable/radiobutton_right_state"
+                    android:layout_marginLeft="0dp"
                     android:text="วันทำงาน" />
             </RadioGroup>
 
@@ -83,7 +105,9 @@
                     android:id="@+id/checkbox_morShift"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="เวรเช้า"
+                    android:button="@drawable/selector_check_box_state"
+                    android:text=" เวรเช้า"
+                    android:textColor="#FFFFFF"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textAllCaps="false"/>
@@ -105,14 +129,20 @@
                         android:id="@+id/radioGroup_jobTypeMor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="9dp"
                         android:orientation="horizontal">
                         <RadioButton
                             android:id="@+id/radio_realJobMor"
                             style="@style/RadioButtonItemStyle"
+                            android:button="@android:color/transparent"
+                            android:background="@drawable/radiobutton_left_state"
                             android:text="เวรจริง"/>
                         <RadioButton
                             android:id="@+id/radio_otJobMor"
                             style="@style/RadioButtonItemStyle"
+                            android:layout_marginLeft="0dp"
+                            android:button="@android:color/transparent"
+                            android:background="@drawable/radiobutton_right_state"
                             android:text="เวรพิเศษ(OT)" />
                     </RadioGroup>
 
@@ -146,6 +176,7 @@
                             android:layout_marginLeft="7dp"
                             android:textSize="18sp"
                             android:textStyle="bold"
+                            android:textColor="#FFFFFF"
                             android:text="To"/>
 
                         <EditText
@@ -193,7 +224,7 @@
                     <TextView
                         style="@style/TextLabelTopicStyle"
                         android:textSize="16sp"
-                        android:text="คำอธิบายหรือบันทึกเตือนความจำ"/>
+                        android:text="หน้าที่(ตำแหน่ง)ในทีม"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -227,7 +258,9 @@
                     android:id="@+id/checkbox_aftShift"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="เวรบ่าย"
+                    android:button="@drawable/selector_check_box_state"
+                    android:text=" เวรบ่าย"
+                    android:textColor="#FFFFFF"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textAllCaps="false"/>
@@ -249,14 +282,20 @@
                         android:id="@+id/radioGroup_jobTypeAft"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="9dp"
                         android:orientation="horizontal">
                         <RadioButton
                             android:id="@+id/radio_realJobAft"
                             style="@style/RadioButtonItemStyle"
+                            android:button="@android:color/transparent"
+                            android:background="@drawable/radiobutton_left_state"
                             android:text="เวรจริง"/>
                         <RadioButton
                             android:id="@+id/radio_otJobAft"
                             style="@style/RadioButtonItemStyle"
+                            android:layout_marginLeft="0dp"
+                            android:button="@android:color/transparent"
+                            android:background="@drawable/radiobutton_right_state"
                             android:text="เวรพิเศษ(OT)" />
                     </RadioGroup>
 
@@ -290,6 +329,7 @@
                             android:layout_marginLeft="7dp"
                             android:textSize="18sp"
                             android:textStyle="bold"
+                            android:textColor="#FFFFFF"
                             android:text="To"/>
 
                         <EditText
@@ -337,7 +377,7 @@
                     <TextView
                         style="@style/TextLabelTopicStyle"
                         android:textSize="16sp"
-                        android:text="คำอธิบายหรือบันทึกเตือนความจำ"/>
+                        android:text="หน้าที่(ตำแหน่ง)ในทีม"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -371,7 +411,9 @@
                     android:id="@+id/checkbox_nigShift"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="เวรดึก"
+                    android:button="@drawable/selector_check_box_state"
+                    android:text=" เวรดึก"
+                    android:textColor="#FFFFFF"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textAllCaps="false"/>
@@ -393,14 +435,20 @@
                         android:id="@+id/radioGroup_jobTypeNig"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="9dp"
                         android:orientation="horizontal">
                         <RadioButton
                             android:id="@+id/radio_realJobNig"
                             style="@style/RadioButtonItemStyle"
+                            android:button="@android:color/transparent"
+                            android:background="@drawable/radiobutton_left_state"
                             android:text="เวรจริง"/>
                         <RadioButton
                             android:id="@+id/radio_otJobNig"
                             style="@style/RadioButtonItemStyle"
+                            android:layout_marginLeft="0dp"
+                            android:button="@android:color/transparent"
+                            android:background="@drawable/radiobutton_right_state"
                             android:text="เวรพิเศษ(OT)" />
                     </RadioGroup>
 
@@ -434,6 +482,7 @@
                             android:layout_marginLeft="7dp"
                             android:textSize="18sp"
                             android:textStyle="bold"
+                            android:textColor="#FFFFFF"
                             android:text="To"/>
 
                         <EditText
@@ -481,7 +530,7 @@
                     <TextView
                         style="@style/TextLabelTopicStyle"
                         android:textSize="16sp"
-                        android:text="คำอธิบายหรือบันทึกเตือนความจำ"/>
+                        android:text="หน้าที่(ตำแหน่ง)ในทีม"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -519,7 +568,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_clear_item_state"
+            android:background="@drawable/button_green_state"
             android:text="ล้างข้อมูล"
             android:textColor="@drawable/text_state"
             android:textAllCaps="false"
@@ -530,7 +579,7 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_add_item_state"
+            android:background="@drawable/button_red_state"
             android:text="เพิ่มข้อมูล"
             android:textColor="@drawable/text_state"
             android:textAllCaps="false"

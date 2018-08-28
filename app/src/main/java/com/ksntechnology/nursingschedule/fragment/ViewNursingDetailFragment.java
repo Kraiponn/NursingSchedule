@@ -162,7 +162,7 @@ public class ViewNursingDetailFragment extends Fragment {
         }
 
         if (!dao.getData().get(0).getRemark().equals("")) {
-            tvRemark.setText("บันทึกเตือน: " + dao.getData().get(0).getRemark());
+            tvRemark.setText("หน้าที่ในทีม: " + dao.getData().get(0).getRemark());
         } else {
             tvRemark.setText("");
         }

@@ -13,18 +13,18 @@ import com.ksntechnology.nursingschedule.R;
 public class SplashScreenActivity extends AppCompatActivity {
     private Handler mHandler;
     private Runnable mRunnable;
-    private MediaPlayer mPlayer;
+    //private MediaPlayer mPlayer;
     private TextView tvTitle;
-    private ImageView imgLogo;
+    //private ImageView imgLogo;
     private long delay_time = 0L;
-    private long time = 9000L;
+    private long time = 4000L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        imgLogo = findViewById(R.id.image_logo);
+        //imgLogo = findViewById(R.id.image_logo);
         tvTitle = findViewById(R.id.text_title);
 
         mHandler = new Handler();
@@ -44,9 +44,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mPlayer = MediaPlayer.create(
-                this, R.raw.bjorn_lynne_idents_summit_proud);
-        mPlayer.start();
         delay_time = time;
         mHandler.postDelayed(mRunnable, delay_time);
         time = System.currentTimeMillis();
@@ -55,15 +52,13 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void startAnimate() {
-        tvTitle.animate().rotationY(360).setStartDelay(1000)
-                .setDuration(5000).start();
+        tvTitle.animate().rotationY(360).setDuration(4000).start();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         time = delay_time - (System.currentTimeMillis() - time);
-        mPlayer.release();
     }
 
 }

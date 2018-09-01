@@ -2,8 +2,10 @@ package com.ksntechnology.nursingschedule.activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -13,14 +15,11 @@ import com.ksntechnology.nursingschedule.R;
 import com.ksntechnology.nursingschedule.fragment.EditingFragment;
 import com.ksntechnology.nursingschedule.fragment.ViewNursingDetailFragment;
 import com.ksntechnology.nursingschedule.fragment.ViewNursingFragment;
-import com.ksntechnology.nursingschedule.fragment.ViewScheduleRecordFragment;
 
 public class ViewScheduleActivity extends AppCompatActivity
-        implements ViewScheduleRecordFragment.onBackClickListener,
-        ViewScheduleRecordFragment.onShowDetailListener,
-        ViewScheduleRecordFragment.onCallEditOrDeleteListener,
-        EditingFragment.setOnEditItemClickListener,
-        EditingFragment.setOnReloadUpdateDataListener{
+        implements EditingFragment.setOnEditItemClickListener,
+                    EditingFragment.setOnReloadUpdateDataListener,
+                    ViewNursingFragment.OnCallItemClickListener{
 
     private String mUserWorking = "";
 
@@ -42,10 +41,17 @@ public class ViewScheduleActivity extends AppCompatActivity
             mUserWorking = userWorking;
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.contentViewSchedule_container,
+                    .add(R.id.contentMainViewNursing,
                             ViewNursingFragment.newInstance(userWorking))
                     .commit();
         }
+    }
+
+    private void replaceFragmentToActivity(int container, Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(container, fragment)
+                .commit();
     }
 
     private void initInstance() {
@@ -70,10 +76,10 @@ public class ViewScheduleActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.contentViewSchedule_container,
-                        ViewScheduleRecordFragment.newInstance(mUserWorking))
-                .commit();
+        /*getSupportFragmentManager().beginTransaction()
+                .replace(R.id.contentViewSchedule_container,
+                        ViewNursingFragment.newInstance(mUserWorking))
+                .commit();*/
     }
 
     @Override
@@ -90,26 +96,31 @@ public class ViewScheduleActivity extends AppCompatActivity
         onBackPressed();
     }
 
-
     @Override
     public void onShowDetail(int id) {
         FrameLayout ViewMoreInfo =
-                findViewById(R.id.contentViewDetailContainer_right);
+                findViewById(R.id.contentViewNursingDetail);
+
         if (ViewMoreInfo == null) {
             Intent itn = new Intent(
                     ViewScheduleActivity.this,
                     ViewNursingDetailActivity.class);
             itn.putExtra("id", id);
             startActivity(itn);
+
             overridePendingTransition(
                     R.anim.slide_in_right,
                     R.anim.slide_out_left
             );
         } else {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.contentViewDetailContainer_right,
+            /*getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.contentViewNursingDetail,
                             ViewNursingDetailFragment.newInstance(id))
-                    .commit();
+                    .commit();*/
+            replaceFragmentToActivity(
+                    R.id.contentViewNursingDetail,
+                    ViewNursingDetailFragment.newInstance(id)
+            );
         }
 
 
@@ -118,7 +129,7 @@ public class ViewScheduleActivity extends AppCompatActivity
     @Override
     public void onCallEditOrDelete(int id) {
         FrameLayout ViewMoreInfo =
-                findViewById(R.id.contentViewDetailContainer_right);
+                findViewById(R.id.contentViewNursingDetail);
 
         if (ViewMoreInfo == null) {
             Intent itn = new Intent(
@@ -126,17 +137,23 @@ public class ViewScheduleActivity extends AppCompatActivity
                     EditingActivity.class);
             itn.putExtra("id", id);
             startActivity(itn);
+
             overridePendingTransition(
                     R.anim.slide_in_right,
                     R.anim.slide_out_left
             );
         } else {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.contentViewDetailContainer_right,
+            /*getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.contentViewNursingDetail,
                             EditingFragment.newInstance(id))
-                    .commit();
+                    .commit();*/
+            replaceFragmentToActivity(
+                    R.id.contentViewNursingDetail,
+                    EditingFragment.newInstance(id)
+            );
         }
     }
+
 
     @Override
     public void onEditItemClicked() {
@@ -147,9 +164,35 @@ public class ViewScheduleActivity extends AppCompatActivity
 
     @Override
     public void onReloadUpdateData() {
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.contentViewSchedule_container,
-                        ViewScheduleRecordFragment.newInstance(mUserWorking))
-                .commit();
+        FrameLayout isLandscapeLayout =
+                findViewById(R.id.contentViewNursingDetail);
+
+        if (isLandscapeLayout != null) {
+            /*getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.contentMainViewNursing,
+                            ViewNursingFragment.newInstance(mUserWorking))
+                    .commit();*/
+            replaceFragmentToActivity(
+                    R.id.contentMainViewNursing,
+                    ViewNursingFragment.newInstance(mUserWorking)
+            );
+
+            Fragment fmEdit = getSupportFragmentManager()
+                    .findFragmentById(R.id.contentViewNursingDetail);
+
+            getSupportFragmentManager().beginTransaction()
+                    .remove(fmEdit)
+                    .commit();
+        } else {
+            /*getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.contentMainViewNursing,
+                            ViewNursingFragment.newInstance(mUserWorking))
+                    .commit();*/
+            replaceFragmentToActivity(
+                    R.id.contentMainViewNursing,
+                    ViewNursingFragment.newInstance(mUserWorking)
+            );
+        }
     }
+
 }

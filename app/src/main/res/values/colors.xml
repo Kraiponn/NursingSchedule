@@ -6,6 +6,9 @@
     <!--<color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>-->
+    <color name="text_morning">#2962FF</color>
+    <color name="text_afternoon">#DD2C00</color>
+    <color name="text_night">#000000</color>
 
     <color name="text_register_normal">#000000</color>
     <color name="text_register_active">#80000000</color>

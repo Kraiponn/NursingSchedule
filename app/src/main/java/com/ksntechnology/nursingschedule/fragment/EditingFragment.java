@@ -388,13 +388,6 @@ public class EditingFragment extends Fragment {
                                 "Throw " + throwable.getMessage(),
                                 FancyToast.ERROR
                         );
-                        /*FancyToast.makeText(
-                                Contextor.getInstance().getContext(),
-                                "Throw " + throwable.getMessage(),
-                                FancyToast.LENGTH_LONG,
-                                FancyToast.ERROR,
-                                true
-                        ).show();*/
                     }
                 }
         );
@@ -423,6 +416,7 @@ public class EditingFragment extends Fragment {
         edtRemark.setText("");
         radRealJob.setChecked(false);
         radOtJob.setChecked(false);
+        //getFragmentManager().popBackStack();
     }
 
     @Override

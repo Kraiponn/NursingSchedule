@@ -12,6 +12,8 @@ public class EditingActivity extends AppCompatActivity
         implements EditingFragment.setOnEditItemClickListener,
                     EditingFragment.setOnReloadUpdateDataListener{
 
+    private Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +21,7 @@ public class EditingActivity extends AppCompatActivity
 
         initInstance();
         if (savedInstanceState == null) {
-            Intent intent = getIntent();
+            intent = getIntent();
             int id = intent.getIntExtra("id", 0);
             /*Toast.makeText(this,
                 "Select Id " + id,
@@ -72,4 +74,5 @@ public class EditingActivity extends AppCompatActivity
     public void onReloadUpdateData() {
         onBackPressed();
     }
+
 }

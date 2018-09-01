@@ -8,7 +8,7 @@
     tools:context=".activity.ViewScheduleActivity">
 
     <FrameLayout
-        android:id="@+id/contentViewSchedule_container"
+        android:id="@+id/contentMainViewNursing"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></FrameLayout>
 

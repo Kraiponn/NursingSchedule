@@ -12,12 +12,12 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
         <FrameLayout
-            android:id="@+id/contentViewSchedule_container"
+            android:id="@+id/contentMainViewNursing"
             android:layout_width="0dp"
             android:layout_weight="1.5"
             android:layout_height="match_parent"></FrameLayout>
         <FrameLayout
-            android:id="@+id/contentViewDetailContainer_right"
+            android:id="@+id/contentViewNursingDetail"
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="match_parent"></FrameLayout>

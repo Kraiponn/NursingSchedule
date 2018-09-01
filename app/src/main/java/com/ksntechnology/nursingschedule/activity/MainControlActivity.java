@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ksntechnology.nursingschedule.R;
 import com.ksntechnology.nursingschedule.dialog.ConfirmDialog;
@@ -112,6 +113,8 @@ public class MainControlActivity extends AppCompatActivity
                 break;
             }
             case R.id.button_viewData: {
+                /*Toast.makeText(this,
+                        "View Clicked", Toast.LENGTH_SHORT).show();*/
                 Intent intent = new Intent(
                         MainControlActivity.this,
                         ViewScheduleActivity.class

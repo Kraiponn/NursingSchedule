@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import com.ksntechnology.nursingschedule.R;
 import com.ksntechnology.nursingschedule.fragment.ViewNursingDetailFragment;
-import com.ksntechnology.nursingschedule.fragment.ViewScheduleRecordFragment;
 
 public class ViewNursingDetailActivity extends AppCompatActivity {
 

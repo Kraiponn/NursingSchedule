@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,20 +17,19 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.ksntechnology.nursingschedule.R;
-import com.ksntechnology.nursingschedule.adapter.NursingItemAdapter;
 import com.ksntechnology.nursingschedule.adapter.ViewNursingAdapter;
-import com.ksntechnology.nursingschedule.dao.ChildItem;
+import com.ksntechnology.nursingschedule.adapter.model.BaseViewNursingItem;
+import com.ksntechnology.nursingschedule.adapter.model.ViewNursingConverter;
 import com.ksntechnology.nursingschedule.dao.NursingItemCollectionDao;
 import com.ksntechnology.nursingschedule.dao.ResultDeleteEditDao;
-import com.ksntechnology.nursingschedule.dao.SectionItem;
 import com.ksntechnology.nursingschedule.dialog.ConfirmDialog;
 import com.ksntechnology.nursingschedule.manager.Contextor;
 import com.ksntechnology.nursingschedule.manager.HttpNursingRequest;
-import com.ksntechnology.nursingschedule.manager.NursingListManager;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -50,12 +50,16 @@ public class ViewNursingFragment extends Fragment {
     private final String MORNING_SHIFT = "MORNING";
     private final String AFTERNOON_SHIFT = "AFTERNOON";
     private final String NIGHT_SHIFT = "NIGHT";
-    private static final int CONFIRM_DELETE = 1;
-    private static final int CONFIRM_EDIT = 2;
+    private final int CONFIRM_DELETE = 1;
+    private final int CONFIRM_EDIT = 2;
+
+    private final int PREVIOUS_ACTIVITY = 0;
+    private final int SHOW_ITEM_DETAIL = 1;
+    private final int EDIT_OR_DELETE_ITEM = 2;
 
     private String mUserWorking = "";
     private ViewNursingAdapter mAdapter;
-    private NursingListManager mDao;
+    //private NursingListManager mDao;
     private Disposable mDisposable;
 
     private Spinner spnnMonth;
@@ -63,19 +67,15 @@ public class ViewNursingFragment extends Fragment {
     private RecyclerView rcv;
     private ImageView imgBack;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private List<BaseViewNursingItem> mItemPacket;
 
 
-    public interface onBackClickListener{
+    public interface OnCallItemClickListener{
         void onBackClick();
-    }
-
-    public interface onShowDetailListener{
         void onShowDetail(int id);
-    }
-
-    public interface onCallEditOrDeleteListener{
         void onCallEditOrDelete(int id);
     }
+
 
     public static ViewNursingFragment newInstance(String userWorking) {
         ViewNursingFragment fragment = new ViewNursingFragment();
@@ -88,7 +88,6 @@ public class ViewNursingFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDao = new NursingListManager();
         mUserWorking = getArguments().getString("user_working");
         //Log.d("DebugUserWorking", mUserWorking);
     }
@@ -139,7 +138,6 @@ public class ViewNursingFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //Toast.makeText(getContext(), "Refresh success", Toast.LENGTH_LONG).show();
                 swipeRefreshLayout.setRefreshing(false);
                 loadingData();
             }
@@ -151,15 +149,17 @@ public class ViewNursingFragment extends Fragment {
     }
 
     private void setConditionView() {
-        mDao = new NursingListManager();
+        //mDao = new NursingListManager();
         //rcv.setHasFixedSize(true);
         rcv.setLayoutManager(new LinearLayoutManager(
                 getContext(),
                 RecyclerView.VERTICAL,
                 false
         ));
-        mAdapter = new ViewNursingAdapter();
+        mAdapter = new ViewNursingAdapter(getContext());
         rcv.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(recyclerAdapterItemClick);
+        mAdapter.setOnItemLongClickListener(recyclerAdapterLongItemClick);
 
         Calendar calendar = Calendar.getInstance();
         int cMonth = calendar.get(Calendar.MONTH);
@@ -189,7 +189,6 @@ public class ViewNursingFragment extends Fragment {
     }
 
     private void setDataToRecyclerView(NursingItemCollectionDao dao) {
-        mDao.setDao(dao);
         String fDate = "";
         String lastDate = "";
         String dateMonth = "";
@@ -199,12 +198,18 @@ public class ViewNursingFragment extends Fragment {
         String location = "";
         int iconID;
         int id;
-        ArrayList item = new ArrayList();
+        mItemPacket = new ArrayList();
 
+        if (dao.getData().size() <= 0 || dao.getData() == null) {
+            mItemPacket.add(ViewNursingConverter.createNoDataItem());
+            mAdapter.setmItem(mItemPacket);
+            mAdapter.notifyDataSetChanged();
+            return;
+        }
 
-        for (int i=0; i<mDao.getDao().getData().size(); i++) {
-            id = mDao.getDao().getData().get(i).getId();
-            fDate = mDao.getDao().getData().get(i).getDate();
+        for (int i=0; i<dao.getData().size(); i++) {
+            id = dao.getData().get(i).getId();
+            fDate = dao.getData().get(i).getDate();
 
             if (!fDate.equals(lastDate)) {
                 //YYYY-MM-DD
@@ -213,13 +218,13 @@ public class ViewNursingFragment extends Fragment {
                 iMonth = Integer.valueOf(arrDMY[1]);
                 dateMonth = ((iDay < 10) ? "0" : "") + iDay;
                 dateMonth += " " + mThaiMonth[iMonth-1];
-                item.add(new SectionItem(dateMonth));
+                mItemPacket.add(ViewNursingConverter.createSectionItem(dateMonth));
 
                 lastDate = fDate;
             }
 
-            shiftType = mDao.getDao().getData().get(i).getShift();
-            location = mDao.getDao().getData().get(i).getLocation();
+            shiftType = dao.getData().get(i).getShift();
+            location = dao.getData().get(i).getLocation();
             if (shiftType.equals(MORNING_SHIFT)) {
                 iconID = R.drawable.ic_morning;
                 shiftType = "เวรเช้า";
@@ -234,22 +239,31 @@ public class ViewNursingFragment extends Fragment {
                 shiftType = "วันหยุด";
             }
 
-            //Log.d("RecyclerView", "Result ID " + id);
-            item.add(new ChildItem(
-                    id,
-                    iconID,
-                    location,
-                    shiftType
-            ));
+            mItemPacket.add(ViewNursingConverter
+                            .createChildItem(
+                                    id,
+                                    iconID,
+                                    location,
+                                    shiftType));
         }
 
-        showData(item);
+        mAdapter.setmItem(mItemPacket);
+        mAdapter.notifyDataSetChanged();
     }
 
-    private void showData(ArrayList item) {
-        /*mAdapter = new ViewNursingAdapter();
-        rcv.setAdapter(mAdapter);*/
+    private void callBackToActivity(int callBackType, int id) {
+        OnCallItemClickListener listener =
+                (OnCallItemClickListener) getActivity();
+
+        if (callBackType == PREVIOUS_ACTIVITY) {
+            listener.onBackClick();
+        }else if (callBackType == SHOW_ITEM_DETAIL) {
+            listener.onShowDetail(id);
+        }else if (callBackType == EDIT_OR_DELETE_ITEM) {
+            listener.onCallEditOrDelete(id);
+        }
     }
+
 
     private void showToastMsg(String text, int toastType) {
         FancyToast.makeText(
@@ -261,8 +275,7 @@ public class ViewNursingFragment extends Fragment {
         ).show();
     }
 
-    private void deleteItem(int id, final int position) {
-        String userWorking = mUserWorking;
+    private void deleteItem(int id) {
         String postMode = "DELETE";
         Observable<ResultDeleteEditDao> postDelete =
                 HttpNursingRequest
@@ -288,8 +301,6 @@ public class ViewNursingFragment extends Fragment {
             public void accept(ResultDeleteEditDao response) throws Exception {
                 if (response.getErrMsg().equals("SUCCESS")) {
                     loadingData();
-                    //mAdapter.notifyItemRemoved(position);
-                    rcv.scrollToPosition(position-1);
                     showToastMsg(
                             "ลบข้อมูลสำเร็จ",
                             FancyToast.SUCCESS
@@ -310,7 +321,6 @@ public class ViewNursingFragment extends Fragment {
     private void loadingData() {
         int month = spnnMonth.getSelectedItemPosition()+1;
         int year = Integer.valueOf(spnnYear.getSelectedItem().toString())-543;
-        //mUserWorking = "admin";
 
         Observable<NursingItemCollectionDao> mNursingObservalble =
                 HttpNursingRequest
@@ -345,8 +355,7 @@ public class ViewNursingFragment extends Fragment {
      */
     AdapterView.OnItemSelectedListener spinnerMonthItemSelect = new AdapterView.OnItemSelectedListener() {
         @Override
-        public void onItemSelected(AdapterView<?> parent,
-                                   View view, int position, long id) {
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             loadingData();
         }
 
@@ -371,8 +380,37 @@ public class ViewNursingFragment extends Fragment {
     View.OnClickListener imageBackClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            onBackClickListener listener = (onBackClickListener) getActivity();
-            listener.onBackClick();
+            callBackToActivity(PREVIOUS_ACTIVITY, 0);
+        }
+    };
+
+    ViewNursingAdapter.OnItemClickListener recyclerAdapterItemClick = new ViewNursingAdapter.OnItemClickListener() {
+        @Override
+        public void onViewNursingItemDetail(int id, int position) {
+            callBackToActivity(SHOW_ITEM_DETAIL, id);
+        }
+    };
+
+
+    ViewNursingAdapter.OnItemLongClickListener recyclerAdapterLongItemClick = new ViewNursingAdapter.OnItemLongClickListener() {
+        @Override
+        public void onEditOrDeleteItem(final int id, int position) {
+            ConfirmDialog dialog = ConfirmDialog.newInstance(
+                    "คุณต้องการแก้ไขหรือลบรายงานนี้?",
+                    "ลบข้อมูล", "แก้ไขข้อมูล"
+            );
+
+            dialog.show(getFragmentManager(), null);
+            dialog.setOnFinishDialogListener(new ConfirmDialog.onFinishDialogListener() {
+                @Override
+                public void onFinishDialog(int selectIndex) {
+                    if (selectIndex == CONFIRM_DELETE) {
+                        deleteItem(id);
+                    } else if (selectIndex == CONFIRM_EDIT) {
+                        callBackToActivity(EDIT_OR_DELETE_ITEM, id);
+                    }
+                }
+            });
         }
     };
 

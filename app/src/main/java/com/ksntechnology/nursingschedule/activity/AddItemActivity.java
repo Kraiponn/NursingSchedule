@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 
 import com.ksntechnology.nursingschedule.R;
 import com.ksntechnology.nursingschedule.dao.AddNursingItemDao;
+import com.ksntechnology.nursingschedule.dao.SectionCollectionDao;
 import com.ksntechnology.nursingschedule.dao.WorkLocationCollectionDao;
 import com.ksntechnology.nursingschedule.dialog.MyAlertDialog;
 import com.ksntechnology.nursingschedule.dialog.MyDatePickerDialog;
@@ -51,40 +52,52 @@ public class AddItemActivity extends AppCompatActivity {
     private RadioGroup radioGroupMor;
     private RadioButton radRealJobMor;
     private RadioButton radOtJobMor;
+    private RadioButton radMenSectionMor;
+    private RadioButton radWomenbMor;
     private ImageButton btnFromTimeMor;
     private ImageButton btnToTimeMor;
     private ImageButton btnLocationMor;
     private ImageButton btnRemarkMor;
+    private ImageButton btnSectionMor;
     private EditText edtFromTimeMor;
     private EditText edtToTimeMor;
     private EditText edtLocationMor;
     private EditText edtRemarkMor;
+    private EditText edtSectionMor;
 
     private CheckBox chkShiftAft;
     private RadioGroup radioGroupAft;
     private RadioButton radRealJobAft;
     private RadioButton radOtJobAft;
+    private RadioButton radMenSectionAft;
+    private RadioButton radWomenbAft;
     private ImageButton btnFromTimeAft;
     private ImageButton btnToTimeAft;
     private ImageButton btnLocationAft;
     private ImageButton btnRemarkAft;
+    private ImageButton btnSectionAft;
     private EditText edtFromTimeAft;
     private EditText edtToTimeAft;
     private EditText edtLocationAft;
     private EditText edtRemarkAft;
+    private EditText edtSectionAft;
 
     private CheckBox chkShiftNig;
     private RadioGroup radioGroupNig;
     private RadioButton radRealJobNig;
     private RadioButton radOtJobNig;
+    private RadioButton radMenSectionNig;
+    private RadioButton radWomenbNig;
     private ImageButton btnFromTimeNig;
     private ImageButton btnToTimeNig;
     private ImageButton btnLocationNig;
     private ImageButton btnRemarkNig;
+    private ImageButton btnSectionNig;
     private EditText edtFromTimeNig;
     private EditText edtToTimeNig;
     private EditText edtLocationNig;
     private EditText edtRemarkNig;
+    private EditText edtSectionNig;
 
     private Button btnAddItem;
     private Button btnClearItem;
@@ -108,9 +121,11 @@ public class AddItemActivity extends AppCompatActivity {
     private final boolean WORK_NORMAL_DAY = true;
 
     private Disposable mDisposable;
-    private ArrayList mArrLocation;
+    //private ArrayList mArrLocation;
     private Observable<WorkLocationCollectionDao> mLocationObservalble;
+    private Observable<SectionCollectionDao> mSectionObservalble;
     private String[] mLocationItem;
+    private String[] mSectionItem;
 
 
     /***********************************
@@ -214,6 +229,10 @@ public class AddItemActivity extends AppCompatActivity {
         btnToTimeMor = findViewById(R.id.imageButton_toTimeMor);
         btnLocationMor = findViewById(R.id.imageButton_locationMor);
         btnRemarkMor = findViewById(R.id.imageButton_RemarkMor);
+        radMenSectionMor = findViewById(R.id.radio_sectionManMor);
+        radWomenbMor = findViewById(R.id.radio_sectionWomanMor);
+        edtSectionMor = findViewById(R.id.edit_sectionMor);
+        btnSectionMor = findViewById(R.id.imageButton_sectionMor);
 
         chkShiftAft = findViewById(R.id.checkbox_aftShift);
         radioGroupAft = findViewById(R.id.radioGroup_jobTypeAft);
@@ -227,6 +246,10 @@ public class AddItemActivity extends AppCompatActivity {
         btnToTimeAft = findViewById(R.id.imageButton_toTimeAft);
         btnLocationAft = findViewById(R.id.imageButton_locationAft);
         btnRemarkAft = findViewById(R.id.imageButton_RemarkAft);
+        radMenSectionAft = findViewById(R.id.radio_sectionManAft);
+        radWomenbAft = findViewById(R.id.radio_sectionWomanAft);
+        edtSectionAft = findViewById(R.id.edit_sectionAft);
+        btnSectionAft = findViewById(R.id.imageButton_sectionAft);
 
         chkShiftNig = findViewById(R.id.checkbox_nigShift);
         radioGroupNig = findViewById(R.id.radioGroup_jobTypeNig);
@@ -240,6 +263,10 @@ public class AddItemActivity extends AppCompatActivity {
         btnToTimeNig = findViewById(R.id.imageButton_toTimeNig);
         btnLocationNig = findViewById(R.id.imageButton_locationNig);
         btnRemarkNig= findViewById(R.id.imageButton_RemarkNig);
+        radMenSectionNig = findViewById(R.id.radio_sectionManNig);
+        radWomenbNig = findViewById(R.id.radio_sectionWomanNig);
+        edtSectionNig= findViewById(R.id.edit_sectionNig);
+        btnSectionNig = findViewById(R.id.imageButton_sectionNig);
 
         btnDate.setOnClickListener(btnDateClickListener);
         radFreeDay.setOnClickListener(radFreeDayClick);
@@ -252,30 +279,38 @@ public class AddItemActivity extends AppCompatActivity {
         btnLocationMor.setOnClickListener(btnLocationMorClickListener);
         btnToTimeMor.setOnClickListener(btnToTimeMorClickListener);
         btnRemarkMor.setOnClickListener(btnRemarkClick);
+        btnSectionMor.setOnClickListener(btnSectionMorClicked);
 
         chkShiftAft.setOnCheckedChangeListener(chkAftShiftCheckChanged);
         btnFromTimeAft.setOnClickListener(btnFromTimeAftClickListener);
         btnLocationAft.setOnClickListener(btnLocationAftClickListener);
         btnToTimeAft.setOnClickListener(btnToTimeAftClickListener);
         btnRemarkAft.setOnClickListener(btnRemarkAftClick);
+        btnSectionAft.setOnClickListener(btnSectionAftClicked);
 
         chkShiftNig.setOnCheckedChangeListener(chkNigShiftCheckChanged);
         btnFromTimeNig.setOnClickListener(btnFromTimeNigClickListener);
         btnLocationNig.setOnClickListener(btnLocationNigClickListener);
         btnToTimeNig.setOnClickListener(btnToTimeNigClickListener);
         btnRemarkNig.setOnClickListener(btnRemarkNigClick);
+        btnSectionNig.setOnClickListener(btnSectionNigClicked);
     }
 
     private void init() {
         Intent intent = getIntent();
         mUser = intent.getStringExtra("user_working");
 
-        mArrLocation = new ArrayList();
+        //mArrLocation = new ArrayList();
+        setWorkLocation();
+        setWorkSection();
+    }
+
+    private void setWorkLocation() {
         mLocationObservalble =
                 HttpNursingRequest
                         .getInstance()
                         .getApi()
-                        .getWorkLocation()
+                        .getWorkLocation("REQUEST_LOCATION")
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
         mDisposable = mLocationObservalble.subscribe(
@@ -285,6 +320,39 @@ public class AddItemActivity extends AppCompatActivity {
                         mLocationItem = new String[dao.getData().size()];
                         for (int i=0; i<dao.getData().size(); i++) {
                             mLocationItem[i] = dao.getData().get(i).getLocationName();
+                        }
+                    }
+                },
+                new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        MyAlertDialog dialog = MyAlertDialog.newInstance(
+                                "เกิดข้อผิดพลาด",
+                                "การเชื่อมต่อล้มเหลว โปรดลองอีกครั้ง",
+                                true
+                        );
+                        dialog.show(getSupportFragmentManager(), null);
+                    }
+                }
+        );
+    }
+
+    private void setWorkSection() {
+        mSectionObservalble =
+                HttpNursingRequest
+                        .getInstance()
+                        .getApi()
+                        .getWorkSection("REQUEST_SECTION")
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+
+        mDisposable = mSectionObservalble.subscribe(
+                new Consumer<SectionCollectionDao>() {
+                    @Override
+                    public void accept(SectionCollectionDao dao) throws Exception {
+                        mSectionItem = new String[dao.getData().size()];
+                        for (int i=0; i<dao.getData().size(); i++) {
+                            mSectionItem[i] = dao.getData().get(i).getSection();
                         }
                     }
                 },
@@ -322,6 +390,33 @@ public class AddItemActivity extends AppCompatActivity {
                             break;
                         case R.id.imageButton_locationNig:
                             edtLocationNig.setText(locationItem[selectIndex]);
+                            break;
+                    }
+                }
+            }
+        });
+    }
+
+    private void showSectionDialog(final String[] sectionItem, final View view) {
+        SingleChoiceDialog dialog = SingleChoiceDialog.newInstance(
+                "กรุณาเลือกฝ่ายหรือแผนกในสถานที่ทำงาน",
+                sectionItem,
+                "ตกลง"
+        );
+        dialog.show(getSupportFragmentManager(), null);
+        dialog.setOnFinishDialogListener(new SingleChoiceDialog.onFinishDialogListener() {
+            @Override
+            public void onFinishDialog(int selectIndex) {
+                if (selectIndex != -1) {
+                    switch (view.getId()) {
+                        case R.id.imageButton_sectionMor:
+                            edtSectionMor.setText(sectionItem[selectIndex]);
+                            break;
+                        case R.id.imageButton_sectionAft:
+                            edtSectionAft.setText(sectionItem[selectIndex]);
+                            break;
+                        case R.id.imageButton_sectionNig:
+                            edtSectionNig.setText(sectionItem[selectIndex]);
                             break;
                     }
                 }
@@ -447,6 +542,20 @@ public class AddItemActivity extends AppCompatActivity {
                         edtRemarkMor);
                 result = false;
                 return result;
+            }else if (edtSectionMor.getText().toString().trim().equals("")) {
+                setAlertEditView(
+                        "คุณยังไม่ได้ระบุแผนกที่เข้างาน",
+                        edtSectionMor);
+                result = false;
+                return result;
+            }
+
+            if (!radMenSectionMor.isChecked() && !radWomenbMor.isChecked()) {
+                setAlertRadioButtonView(
+                        "กรุณาระบุฝั่งผู้ป่วย(หญิง-ชาย) ที่คุณรับผิดชอบ",
+                        radMenSectionMor);
+                result = false;
+                return result;
             }
         }
 
@@ -487,6 +596,20 @@ public class AddItemActivity extends AppCompatActivity {
                 setAlertEditView(
                         "คุณยังไม่ได้ระบุหน้าที่(ตำแหน่ง)ในทีม",
                         edtRemarkAft);
+                result = false;
+                return result;
+            }else if (edtSectionAft.getText().toString().trim().equals("")) {
+                setAlertEditView(
+                        "คุณยังไม่ได้ระบุแผนกที่เข้างาน",
+                        edtSectionAft);
+                result = false;
+                return result;
+            }
+
+            if (!radMenSectionAft.isChecked() && !radWomenbAft.isChecked()) {
+                setAlertRadioButtonView(
+                        "กรุณาระบุฝั่งผู้ป่วย(หญิง-ชาย) ที่คุณรับผิดชอบ",
+                        radMenSectionAft);
                 result = false;
                 return result;
             }
@@ -531,6 +654,20 @@ public class AddItemActivity extends AppCompatActivity {
                         edtRemarkNig);
                 result = false;
                 return result;
+            }else if (edtSectionNig.getText().toString().trim().equals("")) {
+                setAlertEditView(
+                        "คุณยังไม่ได้ระบุแผนกที่เข้างาน",
+                        edtSectionNig);
+                result = false;
+                return result;
+            }
+
+            if (!radMenSectionNig.isChecked() && !radWomenbNig.isChecked()) {
+                setAlertRadioButtonView(
+                        "กรุณาระบุฝั่งผู้ป่วย(หญิง-ชาย) ที่คุณรับผิดชอบ",
+                        radMenSectionNig);
+                result = false;
+                return result;
             }
         }
 
@@ -559,14 +696,16 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     private void confirmAddNewItem() {
-        String userWorking;
-        String date;
-        String fromTime;
-        String toTime;
-        String shift;
-        String jobType;
-        String location;
-        String remark;
+        String userWorking = "";
+        String date = "";
+        String fromTime = "";
+        String toTime = "";
+        String shift = "";
+        String jobType = "";
+        String location = "";
+        String remark = "";
+        String section = "";
+        String section_sex = "";
 
         userWorking = mUser;
         date = edtDate.getText().toString().trim();
@@ -586,10 +725,13 @@ public class AddItemActivity extends AppCompatActivity {
                 location = "FREE";
                 remark = "FREE";
                 jobType = "FREE";
+                section = "FREE";
+                section_sex = "FREE";
 
                 addItem(
                         userWorking, date, fromTime, toTime,
-                        shift, jobType, location, remark
+                        shift, jobType, location, remark,
+                        section, section_sex
                 );
 
                 return;
@@ -605,6 +747,13 @@ public class AddItemActivity extends AppCompatActivity {
             shift = "MORNING";
             location = edtLocationMor.getText().toString().trim();
             remark = edtRemarkMor.getText().toString().trim();
+            section = edtSectionMor.getText().toString().trim();
+            if (radMenSectionMor.isChecked()) {
+                section_sex = "MEN";
+            }else{
+                section_sex = "WOMEN";
+            }
+
             if (radRealJobMor.isChecked()) {
                 jobType = "REAL";
             } else {
@@ -613,7 +762,8 @@ public class AddItemActivity extends AppCompatActivity {
 
             addItem(
                     userWorking, date, fromTime, toTime,
-                    shift, jobType, location, remark
+                    shift, jobType, location, remark,
+                    section, section_sex
             );
 
         }
@@ -625,6 +775,13 @@ public class AddItemActivity extends AppCompatActivity {
             shift = "AFTERNOON";
             location = edtLocationAft.getText().toString().trim();
             remark = edtRemarkAft.getText().toString().trim();
+            section = edtSectionAft.getText().toString().trim();
+            if (radMenSectionAft.isChecked()) {
+                section_sex = "MEN";
+            }else{
+                section_sex = "WOMEN";
+            }
+
             if (radRealJobAft.isChecked()) {
                 jobType = "REAL";
             } else {
@@ -633,7 +790,8 @@ public class AddItemActivity extends AppCompatActivity {
 
             addItem(
                     userWorking, date, fromTime, toTime,
-                    shift, jobType, location, remark
+                    shift, jobType, location, remark,
+                    section, section_sex
             );
         }
 
@@ -644,6 +802,13 @@ public class AddItemActivity extends AppCompatActivity {
             shift = "NIGHT";
             location = edtLocationNig.getText().toString().trim();
             remark = edtRemarkNig.getText().toString().trim();
+            section = edtSectionNig.getText().toString().trim();
+            if (radMenSectionNig.isChecked()) {
+                section_sex = "MEN";
+            }else{
+                section_sex = "WOMEN";
+            }
+
             if (radRealJobNig.isChecked()) {
                 jobType = "REAL";
             } else {
@@ -652,7 +817,8 @@ public class AddItemActivity extends AppCompatActivity {
 
             addItem(
                     userWorking, date, fromTime, toTime,
-                    shift, jobType, location, remark
+                    shift, jobType, location, remark,
+                    section, section_sex
             );
         }
 
@@ -670,12 +836,13 @@ public class AddItemActivity extends AppCompatActivity {
 
     private void addItem(String userWorking, String date, String fromTime,
                          String toTime, String shift, String jobType,
-                         String location, String remark) {
+                         String location, String remark,
+                         String section, String section_sex) {
 
         Call<AddNursingItemDao> call =
                 HttpNursingRequest.getInstance().getApi().feedToServer(
                         userWorking, date, fromTime, toTime, shift,
-                        jobType, location, remark
+                        jobType, location, remark, section, section_sex
                 );
         call.enqueue(new Callback<AddNursingItemDao>() {
             @Override
@@ -855,22 +1022,31 @@ public class AddItemActivity extends AppCompatActivity {
         edtToTimeMor.setText("");
         edtLocationMor.setText("");
         edtRemarkMor.setText("");
+        edtSectionMor.setText("");
         radOtJobMor.setChecked(false);
         radRealJobMor.setChecked(false);
+        radMenSectionMor.setChecked(false);
+        radWomenbMor.setChecked(false);
 
         edtFromTimeAft.setText("");
         edtToTimeAft.setText("");
         edtLocationAft.setText("");
         edtRemarkAft.setText("");
+        edtSectionAft.setText("");
         radOtJobAft.setChecked(false);
         radRealJobAft.setChecked(false);
+        radMenSectionAft.setChecked(false);
+        radWomenbAft.setChecked(false);
 
         edtFromTimeNig.setText("");
         edtToTimeNig.setText("");
         edtLocationNig.setText("");
         edtRemarkNig.setText("");
+        edtSectionNig.setText("");
         radOtJobNig.setChecked(false);
         radRealJobNig.setChecked(false);
+        radMenSectionNig.setChecked(false);
+        radWomenbNig.setChecked(false);
     }
 
     private void setAlertRadioButtonView(String text, RadioButton rad) {
@@ -977,6 +1153,14 @@ public class AddItemActivity extends AppCompatActivity {
         }
     };
 
+    View.OnClickListener btnSectionMorClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            showSectionDialog(mSectionItem, v);
+        }
+    };
+
+
     //------------ AfterNoon
     CompoundButton.OnCheckedChangeListener chkAftShiftCheckChanged = new CompoundButton.OnCheckedChangeListener() {
         @Override
@@ -1015,6 +1199,13 @@ public class AddItemActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             getSimpleRemark(v);
+        }
+    };
+
+    View.OnClickListener btnSectionAftClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            showSectionDialog(mSectionItem, v);
         }
     };
 
@@ -1059,6 +1250,14 @@ public class AddItemActivity extends AppCompatActivity {
             getSimpleRemark(v);
         }
     };
+
+    View.OnClickListener btnSectionNigClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            showSectionDialog(mSectionItem, v);
+        }
+    };
+
 
 
 }

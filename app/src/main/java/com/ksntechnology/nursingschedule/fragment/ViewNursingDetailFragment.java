@@ -31,6 +31,8 @@ public class ViewNursingDetailFragment extends Fragment {
     private TextView tvJobType;
     private TextView tvLocation;
     private TextView tvRemark;
+    private TextView tvSection;
+    private TextView tvSectionSex;
     private int mId = 0;
     private static final String POST_MODE = "SELECT_DETAIL_MODE";
     private static final String REAL_JOB = "REAL";
@@ -86,6 +88,8 @@ public class ViewNursingDetailFragment extends Fragment {
         tvJobType = view.findViewById(R.id.textJobType);
         tvLocation = view.findViewById(R.id.textLocation);
         tvRemark = view.findViewById(R.id.textRemark);
+        tvSection = view.findViewById(R.id.textSection);
+        tvSectionSex = view.findViewById(R.id.textSectionSex);
 
         initView(savedInstanceState);
     }
@@ -98,6 +102,8 @@ public class ViewNursingDetailFragment extends Fragment {
                         .postObservableNursingByCondition(
                                 mId,
                                 POST_MODE,
+                                null,
+                                null,
                                 null,
                                 null,
                                 null)
@@ -165,6 +171,14 @@ public class ViewNursingDetailFragment extends Fragment {
             tvRemark.setText("หน้าที่ในทีม: " + dao.getData().get(0).getRemark());
         } else {
             tvRemark.setText("");
+        }
+
+        tvSection.setText("ฝ่าย(แผนก): " + dao.getData().get(0).getSection());
+        //tvSectionSex.setText("ผู้ป่วยฝั่ง: " + dao.getData().get(0).getSection_sex());
+        if (dao.getData().get(0).getSection_sex().equals("MEN")) {
+            tvSectionSex.setText("ฝั่ง: ชาย");
+        } else {
+            tvSectionSex.setText("ฝั่ง: หญิง");
         }
     }
 

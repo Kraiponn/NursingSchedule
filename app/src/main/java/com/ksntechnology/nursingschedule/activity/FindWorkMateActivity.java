@@ -52,7 +52,7 @@ public class FindWorkMateActivity extends AppCompatActivity
 
 
     @Override
-    public void setOnCallWorkMateDetail(String location, String shift, String date) {
+    public void setOnCallWorkMateDetail(String location, String shift, String date, String section, String section_sex) {
         FrameLayout moreInfo = findViewById(R.id.contentDetail_FindWorkMate);
 
         if (moreInfo == null) {
@@ -63,6 +63,8 @@ public class FindWorkMateActivity extends AppCompatActivity
             intent.putExtra("location", location);
             intent.putExtra("date", date);
             intent.putExtra("shift", shift);
+            intent.putExtra("section", section);
+            intent.putExtra("section_sex", section_sex);
             startActivity(intent);
             overridePendingTransition(
                     R.anim.slide_in_right,
@@ -72,7 +74,8 @@ public class FindWorkMateActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.contentDetail_FindWorkMate,
                             WorkMateDetailFragment.newInstance(
-                                    location, date, shift
+                                    location, date, shift,
+                                    section, section_sex
                             ))
                     .commit();
         }

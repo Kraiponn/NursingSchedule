@@ -27,6 +27,8 @@ public class WorkMateDetailFragment extends Fragment {
     private String mLocation;
     private String mShift;
     private String mDate;
+    private String mSection;
+    private String mSectionSex;
     private RecyclerView rcv;
     private TextView tvResult;
     private Disposable mDisposable;
@@ -36,13 +38,15 @@ public class WorkMateDetailFragment extends Fragment {
 
     public static WorkMateDetailFragment newInstance(
             String location, String myDate,
-            String shift
+            String shift, String section, String section_sex
     ) {
         WorkMateDetailFragment fragment = new WorkMateDetailFragment();
         Bundle args = new Bundle();
         args.putString("location", location);
         args.putString("shift", shift);
         args.putString("date", myDate);
+        args.putString("section", section);
+        args.putString("section_sex", section_sex);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,6 +58,8 @@ public class WorkMateDetailFragment extends Fragment {
             mLocation = getArguments().getString("location");
             mShift = getArguments().getString("shift");
             mDate = getArguments().getString("date");
+            mSection = getArguments().getString("section");
+            mSectionSex = getArguments().getString("section_sex");
             //Log.d("ResponsesXYZ", mLocation + " " + mDate);
         }
     }
@@ -118,7 +124,9 @@ public class WorkMateDetailFragment extends Fragment {
                                 "SELECT_WORKMATE_DETAIL_MODE",
                                 mDate,
                                 mLocation,
-                                mShift
+                                mShift,
+                                mSection,
+                                mSectionSex
                         )
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());

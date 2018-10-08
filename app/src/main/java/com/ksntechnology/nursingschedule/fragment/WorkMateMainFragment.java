@@ -10,10 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.ksntechnology.nursingschedule.R;
+import com.ksntechnology.nursingschedule.dao.SectionCollectionDao;
 import com.ksntechnology.nursingschedule.dao.WorkLocationCollectionDao;
 import com.ksntechnology.nursingschedule.dialog.MyAlertDialog;
 import com.ksntechnology.nursingschedule.dialog.MyDatePickerDialog;
@@ -35,7 +37,11 @@ public class WorkMateMainFragment extends Fragment {
     private EditText edtDate;
     private Button btnDate;
     private EditText edtLocation;
+    private EditText edtSection;
     private Button btnLocation;
+    private ImageButton btnSection;
+    private RadioButton radMenSection;
+    private RadioButton radWomenSection;
     private RadioGroup radioGroup;
     private RadioButton radMorning;
     private RadioButton radAfternoon;
@@ -47,10 +53,17 @@ public class WorkMateMainFragment extends Fragment {
     private Disposable mDisposable;
     private ArrayList mArrLocation;
     private Observable<WorkLocationCollectionDao> mLocationObservalble;
+    private Observable<SectionCollectionDao> mSectionObservalble;
     private String[] mLocationItem;
+    private String[] mSectionItem;
 
     public interface onCallWorkMateDetailListener{
-        void setOnCallWorkMateDetail(String location, String shift, String date);
+        void setOnCallWorkMateDetail(
+                String location,
+                String shift,
+                String date,
+                String section,
+                String section_sex);
     }
 
     public static WorkMateMainFragment newInstance() {
@@ -82,7 +95,8 @@ public class WorkMateMainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        init();
+        setLocationItems();
+        setWorkSection();
     }
 
     @Override
@@ -104,20 +118,25 @@ public class WorkMateMainFragment extends Fragment {
         radNight = view.findViewById(R.id.radioFind_Night);
         btnWorkMate = view.findViewById(R.id.buttonFind_WorkMate);
         btnClearItem = view.findViewById(R.id.buttonFind_ClearItem);
+        radMenSection = view.findViewById(R.id.radioFindWorkMate_sectionMan);
+        radWomenSection = view.findViewById(R.id.radioFindWorkMate_sectionWoman);
+        edtSection = view.findViewById(R.id.editFindWorkMate_section);
+        btnSection = view.findViewById(R.id.imageButtonFindWorkMate_section);
 
         btnDate.setOnClickListener(btnDateClick);
         btnLocation.setOnClickListener(btnLocationClickListener);
         btnWorkMate.setOnClickListener(btnWorkMateClickListener);
         btnClearItem.setOnClickListener(btnClearClick);
+        btnSection.setOnClickListener(btnSectionClicked);
     }
 
-    private void init() {
+    private void setLocationItems() {
         mArrLocation = new ArrayList();
         mLocationObservalble =
                 HttpNursingRequest
                         .getInstance()
                         .getApi()
-                        .getWorkLocation()
+                        .getWorkLocation("REQUEST_LOCATION")
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
         mDisposable = mLocationObservalble.subscribe(
@@ -133,6 +152,39 @@ public class WorkMateMainFragment extends Fragment {
 
                         //Log.d("Location Response", str);
                         //showLocationDialog(locationItem);
+                    }
+                },
+                new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        MyAlertDialog dialog = MyAlertDialog.newInstance(
+                                "เกิดข้อผิดพลาด",
+                                "การเชื่อมต่อล้มเหลว โปรดลองอีกครั้ง",
+                                true
+                        );
+                        dialog.show(getFragmentManager(), null);
+                    }
+                }
+        );
+    }
+
+    private void setWorkSection() {
+        mSectionObservalble =
+                HttpNursingRequest
+                        .getInstance()
+                        .getApi()
+                        .getWorkSection("REQUEST_SECTION")
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+
+        mDisposable = mSectionObservalble.subscribe(
+                new Consumer<SectionCollectionDao>() {
+                    @Override
+                    public void accept(SectionCollectionDao dao) throws Exception {
+                        mSectionItem = new String[dao.getData().size()];
+                        for (int i=0; i<dao.getData().size(); i++) {
+                            mSectionItem[i] = dao.getData().get(i).getSection();
+                        }
                     }
                 },
                 new Consumer<Throwable>() {
@@ -219,7 +271,17 @@ public class WorkMateMainFragment extends Fragment {
                     "กรุณาระบุสถานที่ในการค้นหา",
                     edtLocation);
             return;
-        } else if (!radMorning.isChecked() && !radAfternoon.isChecked()
+        }else if (edtSection.getText().toString().trim().equals("")) {
+            setAlertEditView(
+                    "กรุณาระบุฝ่ายหรือแผนกที่คุณต้องการค้นหา",
+                    edtSection);
+            return;
+        }else if (!radMenSection.isChecked() && !radWomenSection.isChecked()) {
+            setAlertRadioButtonView(
+                    "กรุณาเลือกฝั่งผู้ป่วยหญิงหรือชายของแผนกที่คุณต้องการค้นหา",
+                    radMenSection);
+            return;
+        }else if (!radMorning.isChecked() && !radAfternoon.isChecked()
                 && !radNight.isChecked()) {
             setAlertRadioButtonView(
                     "กรุณาเลือกช่วงเวลา(กะ) ในการค้นหา",
@@ -237,6 +299,14 @@ public class WorkMateMainFragment extends Fragment {
             shift = NIGHT_SHIFT;
         }
 
+        String section = edtSection.getText().toString().trim();
+        String section_sex;
+        if (radMenSection.isChecked()) {
+            section_sex = "MEN";
+        } else {
+            section_sex = "WOMEN";
+        }
+
         String location = edtLocation.getText().toString().trim();
         String date = edtDate.getText().toString().trim();
         /*String[] arrDate = edtDate.getText().toString().trim().split("-");
@@ -249,8 +319,27 @@ public class WorkMateMainFragment extends Fragment {
         listener.setOnCallWorkMateDetail(
                 location,
                 shift,
-                date
+                date,
+                section,
+                section_sex
         );
+    }
+
+    private void showSectionDialog(final String[] sectionItem, final View view) {
+        SingleChoiceDialog dialog = SingleChoiceDialog.newInstance(
+                "กรุณาเลือกฝ่ายหรือแผนกในสถานที่ทำงาน",
+                sectionItem,
+                "ตกลง"
+        );
+        dialog.show(getFragmentManager(), null);
+        dialog.setOnFinishDialogListener(new SingleChoiceDialog.onFinishDialogListener() {
+            @Override
+            public void onFinishDialog(int selectIndex) {
+                if (selectIndex != -1) {
+                    edtSection.setText(sectionItem[selectIndex]);
+                }
+            }
+        });
     }
 
 
@@ -285,9 +374,19 @@ public class WorkMateMainFragment extends Fragment {
         public void onClick(View v) {
             edtDate.setText("");
             edtLocation.setText("");
+            edtSection.setText("");
             radMorning.setChecked(false);
             radAfternoon.setChecked(false);
             radNight.setChecked(false);
+            radMenSection.setChecked(false);
+            radWomenSection.setChecked(false);
+        }
+    };
+
+    View.OnClickListener btnSectionClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            showSectionDialog(mSectionItem, v);
         }
     };
 

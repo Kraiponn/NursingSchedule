@@ -94,7 +94,8 @@ public class ViewNursingAdapter
         }
     }
 
-    private void setupNoDataItem(ViewNursingNoDataViewholder vh, NoDataItem childItem, int position) {
+    private void setupNoDataItem(ViewNursingNoDataViewholder vh,
+                                 NoDataItem childItem, int position) {
     }
 
     @Override

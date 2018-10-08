@@ -28,6 +28,8 @@ public class FindWorkMateDetailsActivity extends AppCompatActivity {
             String location = itn.getStringExtra("location");
             String shift = itn.getStringExtra("shift");
             String date = itn.getStringExtra("date");
+            String section = itn.getStringExtra("section");
+            String section_sex = itn.getStringExtra("section_sex");
 
             //Log.d("ResponsesXYZ", location + " " + date);
             getSupportFragmentManager().beginTransaction()
@@ -35,7 +37,9 @@ public class FindWorkMateDetailsActivity extends AppCompatActivity {
                             WorkMateDetailFragment.newInstance(
                                     location,
                                     date,
-                                    shift
+                                    shift,
+                                    section,
+                                    section_sex
                             ))
                     .commit();
         }

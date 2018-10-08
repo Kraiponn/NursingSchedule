@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import com.ksntechnology.nursingschedule.R;
 import com.ksntechnology.nursingschedule.dao.NursingItemCollectionDao;
 import com.ksntechnology.nursingschedule.dao.ResultDeleteEditDao;
+import com.ksntechnology.nursingschedule.dao.SectionCollectionDao;
 import com.ksntechnology.nursingschedule.dao.WorkLocationCollectionDao;
 import com.ksntechnology.nursingschedule.dialog.MyAlertDialog;
 import com.ksntechnology.nursingschedule.dialog.MyTimePickerDialog;
@@ -43,21 +44,26 @@ public class EditingFragment extends Fragment {
     private ImageButton btnToTime;
     private ImageButton btnLocation;
     private ImageButton btnRemark;
+    private ImageButton btnSection;
+    private RadioButton radMenSection;
+    private RadioButton radWomenSection;
     private EditText edtFromTime;
     private EditText edtToTime;
     private EditText edtLocation;
     private EditText edtRemark;
+    private EditText edtSection;
     private Button btnUpdateItem;
     private Button btnBack;
 
     private int mId = 0;
-    private ArrayList mArrLocation;
     private String[] mLocationItem;
     private static final String[] arrRemark = {
             "Medical Nurse", "InCharge",
             "Day", "Night",
             "Other"
     };
+    private String[] mSectionItem;
+    private Observable<SectionCollectionDao> mSectionObservalble;
 
     private Disposable mDisposable;
     private Observable<NursingItemCollectionDao> callData;
@@ -103,6 +109,7 @@ public class EditingFragment extends Fragment {
     public void onResume() {
         super.onResume();
         initDefaultLocation();
+        setWorkSection();
     }
 
     private void initInstance(View view, Bundle savedInstanceState) {
@@ -120,6 +127,10 @@ public class EditingFragment extends Fragment {
         btnToTime = view.findViewById(R.id.imageButton_toTime);
         btnLocation = view.findViewById(R.id.imageButton_location);
         btnRemark = view.findViewById(R.id.imageButton_Remark);
+        radMenSection = view.findViewById(R.id.radio_sectionMan);
+        radWomenSection = view.findViewById(R.id.radio_sectionWoman);
+        edtSection = view.findViewById(R.id.edit_section);
+        btnSection = view.findViewById(R.id.imageButton_section);
 
         btnLocation.setOnClickListener(btnLocationClicked);
         btnFromTime.setOnClickListener(btnFromTimeClicked);
@@ -127,11 +138,16 @@ public class EditingFragment extends Fragment {
         btnRemark.setOnClickListener(btnRemarkClicked);
         btnUpdateItem.setOnClickListener(btnUpdateItemClicked);
         btnBack.setOnClickListener(btnBackClicked);
+        btnSection.setOnClickListener(btnSectionClicked);
 
         init(savedInstanceState);
     }
 
     private void init(Bundle savedInstanceState) {
+        readDataToView();
+    }
+
+    private void readDataToView() {
         String selectMode = "SELECT_DETAIL_MODE";
         callData =
                 HttpNursingRequest
@@ -140,10 +156,12 @@ public class EditingFragment extends Fragment {
                         .postObservableNursingByCondition(
                                 mId,
                                 selectMode,
-                                null, null, null
+                                null, null, null,
+                                null, null
                         )
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
+
         mDisposable = callData.subscribe(
                 new Consumer<NursingItemCollectionDao>() {
                     @Override
@@ -165,13 +183,45 @@ public class EditingFragment extends Fragment {
         );
     }
 
+    private void setWorkSection() {
+        mSectionObservalble =
+                HttpNursingRequest
+                        .getInstance()
+                        .getApi()
+                        .getWorkSection("REQUEST_SECTION")
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+
+        mDisposable = mSectionObservalble.subscribe(
+                new Consumer<SectionCollectionDao>() {
+                    @Override
+                    public void accept(SectionCollectionDao dao) throws Exception {
+                        mSectionItem = new String[dao.getData().size()];
+                        for (int i=0; i<dao.getData().size(); i++) {
+                            mSectionItem[i] = dao.getData().get(i).getSection();
+                        }
+                    }
+                },
+                new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        MyAlertDialog dialog = MyAlertDialog.newInstance(
+                                "เกิดข้อผิดพลาด",
+                                "การเชื่อมต่อล้มเหลว โปรดลองอีกครั้ง",
+                                true
+                        );
+                        dialog.show(getFragmentManager(), null);
+                    }
+                }
+        );
+    }
+
     private void initDefaultLocation() {
-        mArrLocation = new ArrayList();
         mLocationObservalble =
                 HttpNursingRequest
                         .getInstance()
                         .getApi()
-                        .getWorkLocation()
+                        .getWorkLocation("REQUEST_LOCATION")
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
         mDisposable = mLocationObservalble.subscribe(
@@ -222,12 +272,22 @@ public class EditingFragment extends Fragment {
         edtToTime.setText(dao.getData().get(0).getToTime());
         edtLocation.setText(dao.getData().get(0).getLocation());
         edtRemark.setText(dao.getData().get(0).getRemark());
+        edtSection.setText(dao.getData().get(0).getSection());
 
         String jobType = dao.getData().get(0).getJobType();
         if (jobType.equals("REAL")) {
             radRealJob.setChecked(true);
         } else {
             radOtJob.setChecked(true);
+        }
+
+        if (dao.getData().get(0).getSection_sex().equals("MEN")) {
+            radMenSection.setChecked(true);
+        } else if (dao.getData().get(0).getSection_sex().equals("WOMEN")) {
+            radWomenSection.setChecked(true);
+        } else {
+            radMenSection.setChecked(false);
+            radWomenSection.setChecked(false);
         }
     }
 
@@ -318,6 +378,12 @@ public class EditingFragment extends Fragment {
                     edtRemark
             );
             return;
+        }else if (edtSection.getText().toString().equals("")) {
+            setAlertEditView(
+                    "คุณยังไม่ได้ระบุแผนกในการเข้างาน",
+                    edtSection
+            );
+            return;
         }
 
 
@@ -338,12 +404,22 @@ public class EditingFragment extends Fragment {
         String toTime = edtToTime.getText().toString().trim();
         String location = edtLocation.getText().toString().trim();
         String remark = edtRemark.getText().toString().trim();
-        String jobType = "";
+        String section = edtSection.getText().toString().trim();
+        String jobType;
+        String section_sex;
 
         if (radRealJob.isChecked()) {
             jobType = "REAL";
         } else {
             jobType = "OT";
+        }
+
+        if (!radMenSection.isChecked() && !radWomenSection.isChecked()) {
+            section_sex = "FREE";
+        } else if (radMenSection.isChecked()) {
+            section_sex = "MEN";
+        } else {
+            section_sex = "WOMEN";
         }
 
         Observable<ResultDeleteEditDao> mUpdate =
@@ -358,7 +434,9 @@ public class EditingFragment extends Fragment {
                                 null,
                                 jobType,
                                 location,
-                                remark
+                                remark,
+                                section,
+                                section_sex
                         )
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
@@ -414,9 +492,29 @@ public class EditingFragment extends Fragment {
         edtToTime.setText("");
         edtLocation.setText("");
         edtRemark.setText("");
+        edtSection.setText("");
         radRealJob.setChecked(false);
         radOtJob.setChecked(false);
+        radMenSection.setChecked(false);
+        radWomenSection.setChecked(false);
         //getFragmentManager().popBackStack();
+    }
+
+    private void showSectionDialog(final String[] sectionItem, final View view) {
+        SingleChoiceDialog dialog = SingleChoiceDialog.newInstance(
+                "กรุณาเลือกฝ่ายหรือแผนกในสถานที่ทำงาน",
+                sectionItem,
+                "ตกลง"
+        );
+        dialog.show(getFragmentManager(), null);
+        dialog.setOnFinishDialogListener(new SingleChoiceDialog.onFinishDialogListener() {
+            @Override
+            public void onFinishDialog(int selectIndex) {
+                if (selectIndex != -1) {
+                    edtSection.setText(sectionItem[selectIndex]);
+                }
+            }
+        });
     }
 
     @Override
@@ -472,6 +570,13 @@ public class EditingFragment extends Fragment {
         @Override
         public void onClick(View v) {
             getDefaultRemark(v);
+        }
+    };
+
+    View.OnClickListener btnSectionClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            showSectionDialog(mSectionItem, v);
         }
     };
 

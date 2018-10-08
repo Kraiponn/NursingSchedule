@@ -3,6 +3,7 @@ package com.ksntechnology.nursingschedule.manager.http;
 import com.ksntechnology.nursingschedule.dao.AddNursingItemDao;
 import com.ksntechnology.nursingschedule.dao.NursingItemCollectionDao;
 import com.ksntechnology.nursingschedule.dao.ResultDeleteEditDao;
+import com.ksntechnology.nursingschedule.dao.SectionCollectionDao;
 import com.ksntechnology.nursingschedule.dao.SignInRegisterResultDao;
 import com.ksntechnology.nursingschedule.dao.WorkLocationCollectionDao;
 
@@ -38,7 +39,9 @@ public interface NursingScheduleAPI {
                                          @Field("shift") String shift,
                                          @Field("job_type") String job_type,
                                          @Field("location") String location,
-                                         @Field("remark") String remark);
+                                         @Field("remark") String remark,
+                                         @Field("section") String section,
+                                         @Field("section_sex") String section_sex);
 
     @FormUrlEncoded
     @POST("delete-edit.php")
@@ -52,7 +55,9 @@ public interface NursingScheduleAPI {
                                          @Field("shift") String shift,
                                          @Field("job_type") String job_type,
                                          @Field("location") String location,
-                                         @Field("remark") String remark);
+                                         @Field("remark") String remark,
+                                         @Field("section") String section,
+                                         @Field("section_sex") String section_sex);
 
     @FormUrlEncoded
     @POST("getnursingschedule.php")
@@ -66,7 +71,9 @@ public interface NursingScheduleAPI {
                                                                           @Field("select_mode") String select_mode,
                                                                           @Field("date") String date,
                                                                           @Field("location") String location,
-                                                                          @Field("shift") String shift);
+                                                                          @Field("shift") String shift,
+                                                                          @Field("section") String section,
+                                                                          @Field("section_sex") String section_sex);
 
     /*@FormUrlEncoded
     @POST("getnursingschedule.php")
@@ -77,6 +84,11 @@ public interface NursingScheduleAPI {
     @POST("test.php")
     Call<NursingItemCollectionDao> postTest();*/
 
-    @GET("getworklocation.php")
-    Observable<WorkLocationCollectionDao> getWorkLocation();
+    @FormUrlEncoded
+    @POST("getworklocation-or-section.php")
+    Observable<WorkLocationCollectionDao> getWorkLocation(@Field("request_type") String request_type);
+
+    @FormUrlEncoded
+    @POST("getworklocation-or-section.php")
+    Observable<SectionCollectionDao> getWorkSection(@Field("request_type") String request_type);
 }

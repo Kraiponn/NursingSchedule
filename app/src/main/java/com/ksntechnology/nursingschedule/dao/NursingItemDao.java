@@ -31,6 +31,12 @@ public class NursingItemDao {
     @SerializedName("remark")
     private String remark;
 
+    @SerializedName("section")
+    private String section;
+
+    @SerializedName("section_sex")
+    private String section_sex;
+
     public NursingItemDao() {
         //
     }
@@ -106,5 +112,21 @@ public class NursingItemDao {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
+    }
+
+    public String getSection_sex() {
+        return section_sex;
+    }
+
+    public void setSection_sex(String section_sex) {
+        this.section_sex = section_sex;
     }
 }

@@ -12,12 +12,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal"
             android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:padding="10dp"
@@ -76,14 +75,14 @@
                     style="@style/TextLabelTopicStyle"
                     android:text="สถานที่ทำงาน"/>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <EditText
                         android:id="@+id/editFind_Location"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:ems="14"
                         style="@style/EditTextDateStyle"
                         android:hint="สถานที่"/>
                     <Button
@@ -94,6 +93,52 @@
                         android:layout_marginLeft="1dp"
                         android:background="@drawable/button_location_state"/>
                 </LinearLayout>
+
+                <!-- Section -->
+                <TextView
+                    style="@style/TextLabelTopicStyle"
+                    android:textSize="16sp"
+                    android:text="แผนก(ฝ่าย)"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/editFindWorkMate_section"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        style="@style/EditTextDateStyle"
+                        android:hint="แผนก"/>
+                    <ImageButton
+                        android:id="@+id/imageButtonFindWorkMate_section"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="1dp"
+                        android:background="@drawable/button_location_state"/>
+                </LinearLayout>
+                <RadioGroup
+                    android:id="@+id/radioGroupFindWorkMate_sectionSex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/radioFindWorkMate_sectionMan"
+                        style="@style/RadioButtonItemStyle"
+                        android:layout_marginLeft="1dp"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radiobutton_left_state"
+                        android:text="ฝั่งผู้ป่วยชาย"/>
+                    <RadioButton
+                        android:id="@+id/radioFindWorkMate_sectionWoman"
+                        style="@style/RadioButtonItemStyle"
+                        android:layout_marginLeft="0dp"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radiobutton_right_state"
+                        android:text="ฝั่งผู้ป่วยหญิง" />
+                </RadioGroup>
 
                 <!-- Shift Type -->
                 <TextView

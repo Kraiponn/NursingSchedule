@@ -219,6 +219,7 @@ public class LoginActivity extends AppCompatActivity {
                                 R.anim.slide_in_right,
                                 R.anim.slide_out_left
                         );
+                        finish();
                     } else {
                         toastMessage(
                                 "Invalid user name or password",

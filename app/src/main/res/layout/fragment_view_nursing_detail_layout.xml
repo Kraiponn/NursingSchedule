@@ -65,6 +65,14 @@
                     android:id="@+id/textRemark"
                     style="@style/TextDataDetailStyle"
                     android:text="Remark"/>
+                <TextView
+                    android:id="@+id/textSection"
+                    style="@style/TextDataDetailStyle"
+                    android:text="Section"/>
+                <TextView
+                    android:id="@+id/textSectionSex"
+                    style="@style/TextDataDetailStyle"
+                    android:text="Section Sex"/>
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

@@ -291,6 +291,8 @@ public class ViewNursingFragment extends Fragment {
                                 null,
                                 null,
                                 null,
+                                null,
+                                null,
                                 null
                         )
                         .subscribeOn(Schedulers.io())

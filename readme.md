@@ -1,6 +1,6 @@
 # Nurse Work Schedule
 
-> Mobile application project on android native.
+> Mobile application project on native android.
 
 <br/><br/><br/>
 

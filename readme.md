@@ -1,5 +1,9 @@
 # Nurse Work Schedule
 
+> Mobile application project on android native.
+
+<br/><br/><br/>
+
 <div style="width:100%; display:flex; justify-content:space-around; align-item:center;">
   <image 
     src="./manual/40513571_225304405006725_3862445539329048576_n.png"
@@ -14,6 +18,8 @@
     height="450px"
   />
 </div>
+
+<br/><br/>
 
 <div style="margin-top:7rem; width:100%; display:flex; justify-content:space-around; align-item:center;">
   <image 
@@ -30,6 +36,8 @@
   />
 </div>
 
+<br/><br/>
+
 <div style="margin-top:7rem; width:100%; display:flex; justify-content:space-around; align-item:center;">
   <image 
     src="./manual/40461444_236573030330105_1143331594254155776_n.png"
@@ -45,6 +53,8 @@
   />
 </div>
 
+<br/><br/>
+
 <div style="margin-top:7rem; width:100%; display:flex; justify-content:space-around; align-item:center;">
   <image 
     src="./manual/40546163_225572204971886_7505370378127015936_n.png"
@@ -59,3 +69,14 @@
     height="450px"
   />
 </div>
+
+<br/><br/>
+
+## About Me
+
+```bash
+    Author: Kraipon Najaroon
+    Jobs  : Full stack developer in web and mobile technology.
+    Email : kraipon.na10@gmail.com, kraipon_na10@hotmail.com
+    Tel   : 095-7396209
+```
